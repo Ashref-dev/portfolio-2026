@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .shadow-float {
+    box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.25);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .shadow-float:hover {
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.35);
+    transform: translateY(-4px);
+  }
+}
+
+:root {
+  --fluid-title: clamp(2.5rem, 5vw + 1rem, 6rem);
+  --fluid-subtitle: clamp(1rem, 2vw + 0.5rem, 1.5rem);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
+  --font-serif: 'Instrument Serif', serif;
+  --font-sans: 'Inter', sans-serif;
+  --landing-shell-width: 70rem;
+  --header-shell-width: 64rem;
+  --footer-shell-width: 80rem;
+}
+
+html {
+  color-scheme: light !important;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
+.landing-shell,
+.header-shell,
+.footer-shell {
+  width: min(100%, var(--landing-shell-width));
+  margin-inline: auto;
+}
+
+
+
+
+/* Fluid Typography Helpers */
+.text-fluid-h1 {
+  font-size: var(--fluid-title);
+  line-height: 1.1;
+}
+
+.text-fluid-p {
+  font-size: var(--fluid-subtitle);
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Lenis CSS */
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Safety for pinned sections */
+.pin-spacer {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Mobile Touch Optimizations */
+@media (hover: none) {
+  .hover-trigger {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
