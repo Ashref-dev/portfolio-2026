@@ -17,7 +17,7 @@ type LogoCloudProps = React.ComponentProps<'div'> & {
 export function LogoCloud({ logos, className, ...props }: LogoCloudProps) {
   return (
     <div className={`relative mx-auto w-full py-6 ${className || ''}`} {...props}>
-      <InfiniteSlider gap={42} reverse duration={60} durationOnHover={20}>
+      <InfiniteSlider gap={42} reverse duration={60}>
         {logos.map((logo) => (
           <div key={`logo-${logo.name}`} className="flex items-center gap-3 select-none px-4">
             <img
@@ -46,6 +46,10 @@ export function LogoCloud({ logos, className, ...props }: LogoCloudProps) {
         className='pointer-events-none absolute top-0 right-0 h-full w-[160px] z-20'
         direction='right'
       />
+
+      {/* Portal Edge Highlights over the blur */}
+      <div className='pointer-events-none absolute left-0 top-0 bottom-0 w-px bg-neutral-200/50 z-40' />
+      <div className='pointer-events-none absolute right-0 top-0 bottom-0 w-px bg-neutral-200/50 z-40' />
     </div>
   );
 }

@@ -1,8 +1,8 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown } from "lucide-react";
-import { cn } from "../utils";
+import { cn } from "../lib/utils";
 import { PrimaryButton } from "./ui/PrimaryButton";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,57 +27,59 @@ const Word = ({
 );
 
 const FlippingImagePill = ({
-  img1,
-  img2,
+  images,
   index = 0,
 }: {
-  img1: string;
-  img2: string;
+  images: string[];
   index?: number;
 }) => {
   const innerRef = useRef<HTMLDivElement>(null);
+  const rotationTarget = useRef(0);
+  const timerRef = useRef<any>(null);
+
+  const frontImgIdx = useRef(0);
+  const backImgIdx = useRef(images.length > 1 ? 1 : 0);
+  const [, setRenderKey] = useState(0);
+
+  const triggerFlip = () => {
+    rotationTarget.current += 180;
+    gsap.to(innerRef.current, {
+      rotateY: rotationTarget.current,
+      duration: 1.2,
+      ease: 'back.inOut(1.5)',
+      overwrite: 'auto',
+      onComplete: () => {
+        const flips = Math.round(rotationTarget.current / 180);
+        if (flips % 2 !== 0) {
+          // Back is visible, so rotate front to the next image
+          frontImgIdx.current = (backImgIdx.current + 1) % images.length;
+        } else {
+          // Front is visible, so rotate back to the next image
+          backImgIdx.current = (frontImgIdx.current + 1) % images.length;
+        }
+        setRenderKey((k) => k + 1);
+      }
+    });
+
+    // Reset loop
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(triggerFlip, 5000);
+  };
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to(innerRef.current, {
-        rotateY: "+=180",
-        duration: 1.2,
-        ease: "back.inOut(1.5)",
-        delay: index * 0.7 + 2.5,
-        repeat: -1,
-        repeatDelay: 10,
-      });
-    });
-    return () => ctx.revert();
-  }, [index]);
-
-  const handleFlip = () => {
-    gsap.to(innerRef.current, {
-      rotateY: "+=180",
-      duration: 0.8,
-      ease: "back.out(1.5)",
-      overwrite: "auto",
-    });
-    // Restart the infinite loop after manual flip
-    gsap.to(innerRef.current, {
-      rotateY: "+=180",
-      duration: 1.2,
-      ease: "back.inOut(1.5)",
-      delay: 10,
-      repeat: -1,
-      repeatDelay: 10,
-    });
-  };
+    timerRef.current = setTimeout(triggerFlip, (index * 0.7 + 2.5) * 1000);
+    return () => clearTimeout(timerRef.current);
+  }, [index, images.length]);
 
   return (
     <span
-      onMouseEnter={handleFlip}
       className={cn(
-        "manifesto-element h-14 w-20 inline-block align-middle mx-[0.12em] relative shadow-float hover:shadow-float cursor-pointer rounded-full overflow-hidden will-change-[transform,opacity,filter]",
+        "manifesto-element h-14 w-20 inline-block align-middle mx-[0.12em] relative will-change-[transform,opacity,filter]",
       )}
     >
       <div
-        className="absolute inset-0 w-full h-full flip-container"
+        onMouseEnter={() => triggerFlip()}
+        className="absolute inset-0 w-full h-full shadow-float hover:shadow-float cursor-pointer rounded-full overflow-hidden flip-container"
         style={{ perspective: "1000px" }}
       >
         <div
@@ -86,23 +88,23 @@ const FlippingImagePill = ({
           style={{ transformStyle: "preserve-3d" }}
         >
           <img
-            src={img1}
+            src={images[frontImgIdx.current]}
             className="absolute inset-0 w-full h-full object-cover rounded-full"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
             }}
-            alt="Visual 1"
+            alt="Visual Front"
           />
           <img
-            src={img2}
+            src={images[backImgIdx.current]}
             className="absolute inset-0 w-full h-full object-cover rounded-full"
             style={{
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
             }}
-            alt="Visual 2"
+            alt="Visual Back"
           />
         </div>
       </div>
@@ -133,16 +135,17 @@ export const HeroManifesto = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const heroPortraits = {
     intro: [
-      "https://images.pexels.com/photos/3861959/pexels-photo-3861959.jpeg?auto=compress&cs=tinysrgb&w=256&h=256&fit=crop",
-      "https://images.pexels.com/photos/4974912/pexels-photo-4974912.jpeg?auto=compress&cs=tinysrgb&w=256&h=256&fit=crop",
+      "/assets/ashref-green.webp",
+      "/assets/ashref-purple.webp",
+      "/assets/ashref-red.webp",
     ],
     engineer: [
-      "https://images.pexels.com/photos/340152/pexels-photo-340152.jpeg?auto=compress&cs=tinysrgb&w=256&h=256&fit=crop",
-      "https://images.pexels.com/photos/5483075/pexels-photo-5483075.jpeg?auto=compress&cs=tinysrgb&w=256&h=256&fit=crop",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=365&h=256",
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=365&h=256",
     ],
     tunisia: [
-      "https://images.pexels.com/photos/891116/pexels-photo-891116.jpeg?auto=compress&cs=tinysrgb&w=256&h=256&fit=crop",
-      "https://images.pexels.com/photos/36092721/pexels-photo-36092721.jpeg?auto=compress&cs=tinysrgb&w=256&h=256&fit=crop",
+      "https://images.pexels.com/photos/35347791/pexels-photo-35347791.jpeg?auto=compress&cs=tinysrgb&w=365&h=256&fit=crop",
+      "https://images.pexels.com/photos/15965246/pexels-photo-15965246.jpeg?auto=compress&cs=tinysrgb&w=365&h=256&fit=crop",
     ],
     clients: [
       "https://images.pexels.com/photos/325685/pexels-photo-325685.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop",
@@ -242,8 +245,7 @@ export const HeroManifesto = () => {
             <Word>Hi,</Word>
             <Word>I'm</Word>
             <FlippingImagePill
-              img1={heroPortraits.intro[0]}
-              img2={heroPortraits.intro[1]}
+              images={heroPortraits.intro}
               index={0}
             />
             <TextPill text="Ashref" />
@@ -252,16 +254,14 @@ export const HeroManifesto = () => {
           <div className="flex items-center flex-wrap justify-center md:justify-start">
             <Word>a</Word>
             <FlippingImagePill
-              img1={heroPortraits.engineer[0]}
-              img2={heroPortraits.engineer[1]}
+              images={heroPortraits.engineer}
               index={1}
             />
             <TextPill text="Software Engineer" className="mr-2" />
 
             <Word>from</Word>
             <FlippingImagePill
-              img1={heroPortraits.tunisia[0]}
-              img2={heroPortraits.tunisia[1]}
+              images={heroPortraits.tunisia}
               index={2}
             />
             <TextPill text="Tunisia" />

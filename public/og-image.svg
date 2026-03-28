@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fafafa" />
+      <stop offset="100%" stop-color="#fdfdfd" />
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="16" stdDeviation="32" flood-color="#000" flood-opacity="0.08"/>
+    </filter>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#000000" stroke-width="1" stroke-opacity="0.03"/>
+    </pattern>
+  </defs>
+  
+  <rect width="1200" height="630" fill="url(#g)" />
+  <rect width="1200" height="630" fill="url(#grid)" />
+  
+  <rect x="250" y="165" width="700" height="300" rx="40" fill="#ffffff" filter="url(#shadow)" stroke="#e5e5e5" stroke-width="1"/>
+  
+  <text x="600" y="270" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-weight="800" font-size="72" text-anchor="middle" fill="#171717" letter-spacing="-2">Ashref.tn</text>
+  <text x="600" y="325" font-family="'Instrument Serif', serif" font-style="italic" font-weight="400" font-size="48" text-anchor="middle" fill="#e11d48">Software Engineer</text>
+  
+  <rect x="420" y="380" width="360" height="1" fill="#e5e5e5"/>
+  <text x="600" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Inter', sans-serif" font-weight="600" font-size="16" text-anchor="middle" fill="#737373" letter-spacing="6">BUILDING FULL-STACK AI SOLUTIONS</text>
+</svg>

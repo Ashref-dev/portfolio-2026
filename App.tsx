@@ -1,21 +1,21 @@
-import { useEffect, useRef, useLayoutEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ReactLenis, useLenis } from "lenis/react";
+import { useEffect, useRef, useLayoutEffect } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ReactLenis, useLenis } from 'lenis/react';
 // @ts-ignore
-import "lenis/dist/lenis.css";
+import 'lenis/dist/lenis.css';
 
-import { Header } from "./components/Header";
-import { HeroManifesto } from "./components/HeroManifesto";
-import { HeroIdentity } from "./components/HeroIdentity";
-import { ProcessTicker } from "./components/ProcessTicker";
-import { About } from "./components/About";
-import { Services } from "./components/Services";
-import { Experience } from "./components/Experience";
-import { Projects } from "./components/Projects";
-import { Testimonials } from "./components/Testimonials";
-import { Blog } from "./components/Blog";
-import { Footer } from "./components/Footer";
+import { Header } from './components/Header';
+import { HeroManifesto } from './components/HeroManifesto';
+import { HeroIdentity } from './components/HeroIdentity';
+import { ProcessTicker } from './components/ProcessTicker';
+import { About } from './components/About';
+import { Services } from './components/Services';
+import { Experience } from './components/Experience';
+import { Projects } from './components/Projects';
+import { Testimonials } from './components/Testimonials';
+import { Blog } from './components/Blog';
+import { Footer } from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,22 +34,22 @@ export default function App() {
     const handleLoad = () => {
       // Small timeout to ensure visual readiness
       setTimeout(() => {
-        gsap.to("#preloader", {
+        gsap.to('#preloader', {
           yPercent: -100,
           duration: 1.2,
-          ease: "power4.inOut",
+          ease: 'power4.inOut',
           onComplete: () => {
-            window.dispatchEvent(new CustomEvent("app-ready"));
+            window.dispatchEvent(new CustomEvent('app-ready'));
           },
         });
       }, 200);
     };
 
-    if (document.readyState === "complete") {
+    if (document.readyState === 'complete') {
       handleLoad();
     } else {
-      window.addEventListener("load", handleLoad);
-      return () => window.removeEventListener("load", handleLoad);
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
     }
   }, []);
 
@@ -75,20 +75,20 @@ export default function App() {
       });
     };
 
-    window.addEventListener("app-ready", handleAppReady);
-    return () => window.removeEventListener("app-ready", handleAppReady);
+    window.addEventListener('app-ready', handleAppReady);
+    return () => window.removeEventListener('app-ready', handleAppReady);
   }, []);
 
   return (
     <ReactLenis root ref={lenisRef} options={{ autoRaf: false, anchors: true }}>
       <LenisSync />
 
-      <div className="bg-[#fafafa] min-h-screen ">
+      <div className='bg-[#fafafa] min-h-screen '>
         {/* Global Header */}
         <Header />
 
         {/* Main Content Wrapper - Slides over the footer */}
-        <main className="relative z-10 bg-[#fafafa] shadow-2xl mb-[85vh]">
+        <main className='relative z-10 bg-[#fafafa] shadow-2xl mb-[85vh]'>
           {/* 1. Hero Manifesto (Clean Intro) */}
           <HeroManifesto />
 
@@ -115,10 +115,13 @@ export default function App() {
 
           {/* 9. Blog */}
           <Blog />
+
+          {/* Footer Trigger Anchor */}
+          <div id='contact' className='h-[1px] w-full' />
         </main>
 
         {/* Global Footer - Fixed at the bottom */}
-        <div className="fixed bottom-0 left-0 w-full h-[85vh] z-0">
+        <div className='fixed bottom-0 left-0 w-full h-[85vh] z-0'>
           <Footer />
         </div>
       </div>

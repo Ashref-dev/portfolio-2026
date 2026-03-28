@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../../utils";
+import { cn } from "../../lib/utils";
 
 interface PrimaryButtonProps {
   children: React.ReactNode;

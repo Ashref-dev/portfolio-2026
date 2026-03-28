@@ -21,15 +21,15 @@ const services = [
   {
     id: "01",
     title: "Cloud",
-    desc: "Resilient, auto-scaling infrastructure. I orchestrate ECS clusters, serverless functions, and multi-region deployments with Terraform.",
-    tags: ["AWS", "Azure", "Docker", "Terraform"],
+    desc: "Resilient, auto-scaling infrastructure. I orchestrate ECS clusters, serverless functions, and multi-region deployments with advanced observability.",
+    tags: ["AWS", "Azure", "Docker", "ChromaDB"],
     image: cloudImg,
   },
   {
     id: "02",
     title: "Backend",
-    desc: "High-performance microservices. I engineer clean logic and efficient data pipelines using Go and Python for systems that must scale.",
-    tags: ["Go", "Python", "PostgreSQL", "Redis"],
+    desc: "High-performance microservices and AI agents. I engineer clean logic and efficient data pipelines using Go and Python for systems that must scale.",
+    tags: ["Go", "Python", "AI Agents", "PostgreSQL"],
     image: backImg,
   },
   {

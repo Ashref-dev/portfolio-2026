@@ -1,7 +1,7 @@
 'use client';
-import { cn } from '../../utils';
-import { useMotionValue, animate, motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { cn } from "../../lib/utils";
+import { useMotionValue, motion, useAnimationFrame, wrap } from 'framer-motion';
+import { useRef } from 'react';
 import useMeasure from 'react-use-measure';
 
 type InfiniteSliderProps = {
@@ -18,86 +18,96 @@ export function InfiniteSlider({
   children,
   gap = 16,
   duration = 25,
-  durationOnHover,
   direction = 'horizontal',
   reverse = false,
   className,
 }: InfiniteSliderProps) {
-  const [currentDuration, setCurrentDuration] = useState(duration);
   const [ref, { width, height }] = useMeasure();
-  const translation = useMotionValue(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [key, setKey] = useState(0);
+  const rawTranslation = useMotionValue(0);
+  const isDragging = useRef(false);
+  const momentum = useRef(0);
 
-  useEffect(() => {
-    let controls;
+  useAnimationFrame((t, delta) => {
     const size = direction === 'horizontal' ? width : height;
-    const contentSize = size + gap;
-    const from = reverse ? -contentSize / 2 : 0;
-    const to = reverse ? 0 : -contentSize / 2;
+    if (!size) return;
 
-    if (isTransitioning) {
-      controls = animate(translation, [translation.get(), to], {
-        ease: 'linear',
-        duration:
-          currentDuration * Math.abs((translation.get() - to) / contentSize),
-        onComplete: () => {
-          setIsTransitioning(false);
-          setKey((prevKey) => prevKey + 1);
-        },
-      });
-    } else {
-      controls = animate(translation, [from, to], {
-        ease: 'linear',
-        duration: currentDuration,
-        repeat: Infinity,
-        repeatType: 'loop',
-        repeatDelay: 0,
-        onRepeat: () => {
-          translation.set(from);
-        },
-      });
+    const contentSize = size + gap;
+    const halfSize = contentSize / 2;
+
+    const baseSpeed = halfSize / (duration * 1000);
+    const baseDirection = reverse ? 1 : -1;
+
+    let currentMomentum = momentum.current;
+
+    // Apply friction to decay the throw momentum
+    if (!isDragging.current) {
+      if (Math.abs(currentMomentum) > 0.01) {
+        currentMomentum *= 0.95;
+      } else {
+        currentMomentum = 0;
+      }
+      momentum.current = currentMomentum;
     }
 
-    return controls?.stop;
-  }, [
-    key,
-    translation,
-    currentDuration,
-    width,
-    height,
-    gap,
-    isTransitioning,
-    direction,
-    reverse,
-  ]);
+    // Calculate delta movement
+    let moveDelta = 0;
+    if (isDragging.current) {
+      // When dragging, standard auto-scroll is paused; translation is handled in onPan.
+    } else {
+      // Normal continuous crawl combined with any lingering momentum
+      moveDelta = (baseDirection * baseSpeed + currentMomentum) * delta;
+    }
 
-  const hoverProps = durationOnHover
-    ? {
-        onHoverStart: () => {
-          setIsTransitioning(true);
-          setCurrentDuration(durationOnHover);
-        },
-        onHoverEnd: () => {
-          setIsTransitioning(true);
-          setCurrentDuration(duration);
-        },
-      }
-    : {};
+    // Apply wrapped loop bounds: range is [ -halfSize, 0 ]
+    if (!isDragging.current) {
+      const newRaw = wrap(-halfSize, 0, rawTranslation.get() + moveDelta);
+      rawTranslation.set(newRaw);
+    }
+  });
 
   return (
-    <div className={cn('overflow-hidden', className)}>
+    <div 
+      className={cn(
+        'overflow-hidden', 
+        className
+      )}
+    >
       <motion.div
-        className='flex w-max'
+        className='flex w-max cursor-grab active:cursor-grabbing'
         style={{
           ...(direction === 'horizontal'
-            ? { x: translation }
-            : { y: translation }),
+            ? { x: rawTranslation }
+            : { y: rawTranslation }),
           gap: `${gap}px`,
           flexDirection: direction === 'horizontal' ? 'row' : 'column',
         }}
         ref={ref}
-        {...hoverProps}
+        onPanStart={() => {
+          isDragging.current = true;
+          momentum.current = 0;
+        }}
+        onPan={(e, info) => {
+          const deltaMove =
+            direction === 'horizontal' ? info.delta.x : info.delta.y;
+          const size = direction === 'horizontal' ? width : height;
+          if (size) {
+            const halfSize = (size + gap) / 2;
+            const newRaw = wrap(
+              -halfSize,
+              0,
+              rawTranslation.get() + deltaMove
+            );
+            rawTranslation.set(newRaw);
+          }
+        }}
+        onPanEnd={(e, info) => {
+          isDragging.current = false;
+          // Velocity defines the explosive speed of the throw
+          const velocity =
+            direction === 'horizontal' ? info.velocity.x : info.velocity.y;
+          // Scale velocity to pixels per millisecond
+          momentum.current = velocity / 1000;
+        }}
       >
         {children}
         {children}

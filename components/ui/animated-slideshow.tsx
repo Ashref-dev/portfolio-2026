@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { HTMLMotionProps, MotionConfig, motion } from "motion/react"
-import { cn } from "../../utils"
+import { cn } from "../../lib/utils"
 
 interface TextStaggerHoverProps {
   text: string

@@ -1,20 +1,49 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# ashref.tn
 
-# Run and deploy your AI Studio app
+Personal portfolio of Mohamed Ashref Ben Abdallah — AI Engineer and Full-stack Developer based in Tunis, Tunisia.
 
-This contains everything you need to run your app locally.
+## Stack
 
-View your app in AI Studio: https://ai.studio/apps/drive/12RpquHmL02-9sBmeQ5fI-BjkEVXKBbNT
+- **Framework:** React 19 + Vite 7
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 + custom CSS
+- **Animation:** GSAP (ScrollTrigger) + Lenis smooth scroll
+- **Package manager:** Bun
+- **Deployment:** Vercel
 
-## Run Locally
+## Project Structure
 
-**Prerequisites:**  Node.js
+```
+.
+├── components/          # All UI components
+│   └── ui/              # Low-level primitives
+├── lib/                 # Shared utilities (cn, etc.)
+├── public/
+│   └── assets/          # Static assets (images, resume, OG image)
+├── App.tsx              # Root component and layout
+├── index.tsx            # React DOM entry point
+├── index.html           # HTML shell with SEO and OG meta tags
+└── index.css            # Global styles and Tailwind base
+```
 
+## Local Development
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+**Prerequisites:** Bun (https://bun.sh)
+
+```bash
+bun install
+bun run dev
+```
+
+## Production Build
+
+```bash
+bun run build
+```
+
+Output is placed in `dist/`. Deployed automatically on push to `main` via Vercel.
+
+## Contact
+
+hi@ashref.tn  
+https://ashref.tn

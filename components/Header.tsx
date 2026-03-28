@@ -19,7 +19,7 @@ const NavLink = ({
   <a
     href={href}
     onClick={onClick}
-    name={name}
+    title={name}
     className={`nav-item relative font-sans text-[10px] uppercase tracking-[0.2em] transition-colors duration-300 group text-neutral-900`}
   >
     {children}
@@ -159,11 +159,11 @@ export const Header = () => {
                 About
               </NavLink>
               <NavLink
-                href="#about"
+                href="#contact"
                 isScrolled={isScrolled}
-                name="Things I’ve designed, engineered, and shipped to solve problems I actually had."
+                name="Check out my resume."
               >
-                Built
+                Resume
               </NavLink>
             </div>
             <PrimaryButton
@@ -196,16 +196,13 @@ export const Header = () => {
       >
         <nav className="flex flex-col items-center gap-8">
           {[
-            { label: "Work", href: "#work" },
-            { label: "About", href: "#about" },
-            {
-              label: "Resume",
-              href: "/assets/resume_ashref.pdf",
-              external: true,
-            },
+            { label: "Work", href: "#work", external: false, button: false },
+            { label: "About", href: "#about", external: false, button: false },
+            { label: "Resume", href: "#contact", external: false, button: false },
             {
               label: "Let's Talk",
               href: "mailto:hi@ashref.tn",
+              external: false,
               button: true,
             },
           ].map((link, i) => (

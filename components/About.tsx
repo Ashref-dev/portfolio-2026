@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { cn } from '../utils';
+import { cn } from "../lib/utils";
 import { LogoCloud } from './ui/logo-cloud-4';
 
 gsap.registerPlugin(ScrollTrigger);

@@ -120,27 +120,28 @@ export const Footer = () => {
         }}
       />
 
-      <div className='footer-shell flex-1 flex flex-col items-center justify-center z-10 w-full group/cta'>
+      <div className='max-w-7xl w-full mx-auto flex-1 flex flex-col items-center justify-center z-10'>
         <div className='flex items-center gap-4 mb-12'>
-          <div className='flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5'>
-            <div className='w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse' />
-            <span className='text-[9px] font-sans tracking-[0.2em] text-emerald-500 uppercase'>
-              Available for projects
+          <div className='flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-500/30 bg-neutral-500/10 backdrop-blur-sm'>
+            <div className='w-1.5 h-1.5 rounded-full bg-neutral-500' />
+            <span className='text-[10px] font-sans font-bold tracking-[0.3em] text-neutral-400 uppercase'>
+              Unavailable for projects
             </span>
           </div>
         </div>
 
-        <div ref={magneticRef} className='relative cursor-pointer'>
+        <div className='group/cta flex flex-col items-center'>
+          <div ref={magneticRef} className='relative cursor-pointer'>
           <a
             href='mailto:hi@ashref.tn'
             target='_blank'
             rel='noopener noreferrer'
             className='block text-center relative z-10'
           >
-            <h2 className='text-[clamp(4rem,15vw,12rem)] font-serif italic font-light text-[#fafafa] leading-[0.8] tracking-tighter transition-all duration-700 group-hover/cta:text-rose-600 group-hover/cta:scale-[1.02]'>
+            <h2 className='text-[clamp(4.5rem,15vw,13rem)] font-serif italic text-[#fafafa] leading-[0.8] tracking-tighter transition-all duration-700 group-hover/cta:text-rose-600 group-hover/cta:scale-[1.02]'>
               Let's
               <br />
-              Talk<span className='text-rose-600'>.</span>
+              Talk<span className='text-rose-600 font-light'>.</span>
             </h2>
           </a>
 
@@ -151,54 +152,66 @@ export const Footer = () => {
           />
         </div>
 
-        <div className='mt-12 opacity-0 group-hover/cta:opacity-100 transition-opacity duration-500'>
-          <p className='text-neutral-600 font-sans text-[10px] tracking-[0.4em] uppercase'>
-            hi@ashref.tn
-          </p>
+          <div className='mt-16 opacity-0 group-hover/cta:opacity-100 transition-all duration-500 translate-y-4 group-hover/cta:translate-y-0 flex flex-col items-center gap-3 w-full'>
+            <p className='text-neutral-500 font-sans text-[11px] font-bold tracking-[0.4em] uppercase ml-[0.2em]'>
+              hi@ashref.tn
+            </p>
+            <a
+              href='https://www.linkedin.com/in/mohamedashrefbna/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='text-neutral-500 font-sans text-[11px] font-medium hover:text-neutral-400 transition-colors duration-300 text-center'
+            >
+              Don't like mail? Send me a message instead.
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className='footer-shell w-full flex flex-col md:flex-row justify-between items-center gap-12 z-10 border-t border-neutral-800/50 pt-12'>
-        <div className='grid grid-cols-2 md:flex md:flex-wrap justify-center md:justify-start gap-x-8 gap-y-6 md:gap-y-4 w-full md:w-auto'>
+      <div className='max-w-7xl w-full mx-auto flex flex-col lg:flex-row justify-between items-center z-10 border-t border-neutral-800/80 pt-8 pb-4 gap-8'>
+        {/* Left: Socials */}
+        <div className='flex items-center gap-6 lg:gap-8'>
           {socialLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
               target='_blank'
               rel='noopener noreferrer'
-              className='flex items-center justify-center md:justify-start gap-2 text-neutral-500 hover:text-[#fafafa] transition-all duration-300 group'
+              className='flex items-center gap-2 text-neutral-500 hover:text-[#fafafa] transition-colors duration-300 group'
             >
               <link.icon className='w-4 h-4 transition-transform group-hover:-rotate-12 group-hover:scale-110 shrink-0' />
-              <span className='font-sans text-[10px] tracking-[0.2em] uppercase whitespace-nowrap'>
+              <span className='font-sans text-[10px] font-bold tracking-[0.2em] uppercase hidden md:block'>
                 {link.label}
               </span>
-              <ExternalLink className='w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity hidden md:block' />
             </a>
           ))}
         </div>
 
-        <div className='flex flex-col items-center md:items-end gap-6'>
+        {/* Center: Location */}
+        <div className='flex items-center gap-2 text-[10px] font-sans font-bold text-neutral-500 uppercase tracking-[0.3em]'>
+          <Globe className='w-3 h-3 text-neutral-600' />
+          <span>Based in Tunis, TN</span>
+        </div>
+
+        {/* Right: Actions & Copyright */}
+        <div className='flex flex-col md:flex-row items-center gap-6 lg:gap-8'>
+          <div className='flex flex-col items-center md:items-start gap-1.5'>
+            <p className='text-[9px] font-sans font-bold tracking-[0.3em] text-neutral-600 uppercase text-center md:text-left'>
+              &copy; {new Date().getFullYear()} Ashref.tn
+            </p>
+            <p className='text-[7px] font-sans uppercase tracking-[0.25em] text-neutral-500 text-center md:text-left'>
+              Photos by <a href='https://www.pexels.com/@aemyr-sahli-154798633/' target='_blank' rel='noopener noreferrer' className='hover:text-rose-600 transition-colors duration-300 font-bold'>Aemir Sahli</a>
+            </p>
+          </div>
           <a
             href='/assets/resume_ashref.pdf'
             target='_blank'
             rel='noopener noreferrer'
-            className='group flex items-center gap-3 px-8 py-4 rounded-full border border-neutral-800 text-[#fafafa] text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-[#fafafa] hover:text-black transition-all duration-500'
+            className='group flex items-center gap-3 px-6 py-3 rounded-full border border-neutral-800 text-[#fafafa] text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-rose-600 hover:border-rose-600 hover:text-white transition-all duration-500'
           >
             <FileText className='w-4 h-4' />
             Download CV
-            <div className='w-1.5 h-1.5 rounded-full bg-rose-600 animate-pulse' />
           </a>
-
-          <div className='flex flex-col items-center md:items-end gap-1'>
-            <p className='text-[9px] font-sans tracking-[0.3em] text-neutral-600 uppercase'>
-              &copy; {new Date().getFullYear()} Ashref &bull; Built with
-              Precision
-            </p>
-            <div className='flex items-center gap-2 text-[9px] text-neutral-700 uppercase tracking-widest'>
-              <Globe className='w-3 h-3' />
-              <span>Based in Tunis, TN</span>
-            </div>
-          </div>
         </div>
       </div>
     </footer>

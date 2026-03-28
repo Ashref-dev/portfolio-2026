@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Terminal, Database, Network } from "lucide-react";
-import { cn } from "../utils";
+import { cn } from "../lib/utils";
 
 gsap.registerPlugin(ScrollTrigger);
 
