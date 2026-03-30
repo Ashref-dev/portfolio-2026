@@ -103,7 +103,7 @@ export const Services = () => {
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
           <h2 className="service-header-reveal text-[clamp(3rem,6vw,5rem)] font-bold tracking-tighter leading-[0.9] text-neutral-900">
             Technical
-            <span className="pl-6 font-serif italic font-normal text-blue-600">
+            <span className="block md:inline md:pl-6 font-serif italic font-normal text-blue-600 mt-2 md:mt-0">
               Expertise.
             </span>
           </h2>

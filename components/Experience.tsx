@@ -168,16 +168,10 @@ export const Experience = () => {
           <div>
             <h2 className='exp-header-reveal text-[clamp(3rem,6vw,5rem)] font-bold tracking-tighter leading-[0.9] text-neutral-900'>
               Career
-              <span className='pl-6 font-serif italic font-normal text-rose-600'>
+              <span className='block md:inline md:pl-6 font-serif italic font-normal text-rose-600 mt-2 md:mt-0'>
                 Trajectory.
               </span>
             </h2>
-          </div>
-          <div className='md:max-w-md mb-2'>
-            <p className='exp-header-reveal text-lg text-neutral-500 font-light leading-relaxed'>
-              A timeline of technical challenges, product launches, and
-              continuous engineering evolution.
-            </p>
           </div>
         </div>
 

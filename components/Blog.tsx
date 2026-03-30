@@ -111,9 +111,9 @@ export const Blog: React.FC = () => {
       <div className='landing-shell'>
         {/* Header: Minimalist & Architectural */}
         <div className='flex flex-col md:flex-row justify-between items-baseline mb-24 border-b border-neutral-100'>
-          <h2 className='blog-header text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-tighter text-neutral-900'>
-            Latest{' '}
-            <span className='font-serif italic font-light text-amber-600'>
+          <h2 className='blog-header text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-tighter leading-[0.9] text-neutral-900'>
+            Latest
+            <span className='block md:inline md:pl-3 font-serif italic font-light text-amber-600 mt-2 md:mt-0'>
               Thoughts.
             </span>
           </h2>

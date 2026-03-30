@@ -59,9 +59,9 @@ export const Testimonials = () => {
         <div className='flex flex-col md:flex-row justify-between items-baseline mb-20 border-b border-neutral-100 pb-12'>
           <div className='testi-header'>
             {' '}
-            <h2 className='text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-tighter text-neutral-900 leading-none'>
-              Trusted{' '}
-              <span className='font-serif italic font-light text-blue-600'>
+            <h2 className='text-[clamp(2.5rem,6vw,4.5rem)] font-bold tracking-tighter leading-[0.9] text-neutral-900'>
+              Trusted
+              <span className='block md:inline md:pl-3 font-serif italic font-light text-blue-600 mt-2 md:mt-0'>
                 Voices.
               </span>
             </h2>

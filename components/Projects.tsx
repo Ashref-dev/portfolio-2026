@@ -245,7 +245,7 @@ export const Projects = () => {
           <div>
             <h2 className="projects-reveal text-[clamp(2.5rem,5vw,4.75rem)] font-bold tracking-tighter leading-[0.9] text-neutral-900">
               Selected
-              <span className="pl-4 font-serif italic font-normal text-amber-600">
+              <span className="block md:inline md:pl-4 font-serif italic font-normal text-amber-600 mt-2 md:mt-0">
                 Works.
               </span>
             </h2>

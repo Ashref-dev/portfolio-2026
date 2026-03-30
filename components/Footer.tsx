@@ -152,7 +152,7 @@ export const Footer = () => {
           />
         </div>
 
-          <div className='mt-16 opacity-0 group-hover/cta:opacity-100 transition-all duration-500 translate-y-4 group-hover/cta:translate-y-0 flex flex-col items-center gap-3 w-full'>
+          <div className='mt-16 opacity-100 md:opacity-0 group-hover/cta:opacity-100 transition-all duration-500 translate-y-0 md:translate-y-4 group-hover/cta:translate-y-0 flex flex-col items-center gap-3 w-full'>
             <p className='text-neutral-500 font-sans text-[11px] font-bold tracking-[0.4em] uppercase ml-[0.2em]'>
               hi@ashref.tn
             </p>
@@ -160,7 +160,7 @@ export const Footer = () => {
               href='https://www.linkedin.com/in/mohamedashrefbna/'
               target='_blank'
               rel='noopener noreferrer'
-              className='text-neutral-500 font-sans text-[11px] font-medium hover:text-neutral-400 transition-colors duration-300 text-center'
+              className='text-neutral-500 underline underline-offset-4 underline-red-600 font-sans text-[11px] font-medium hover:text-neutral-400 transition-colors duration-300 text-center'
             >
               Don't like mail? Send me a message instead.
             </a>
