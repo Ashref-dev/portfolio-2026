@@ -33,17 +33,17 @@ export function LogoCloud({ logos, className, ...props }: LogoCloudProps) {
         ))}
       </InfiniteSlider>
 
-      <div className='pointer-events-none absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#fafafa] to-transparent z-10' />
-      <div className='pointer-events-none absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#fafafa] to-transparent z-10' />
+      <div className='pointer-events-none absolute left-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-r from-[#fafafa] to-transparent z-10' />
+      <div className='pointer-events-none absolute right-0 top-0 bottom-0 w-12 md:w-32 bg-gradient-to-l from-[#fafafa] to-transparent z-10' />
 
       <ProgressiveBlur
         blurIntensity={2}
-        className='pointer-events-none absolute top-0 left-0 h-full w-[160px] z-20'
+        className='pointer-events-none absolute top-0 left-0 h-full w-[60px] md:w-[160px] z-20'
         direction='left'
       />
       <ProgressiveBlur
         blurIntensity={2}
-        className='pointer-events-none absolute top-0 right-0 h-full w-[160px] z-20'
+        className='pointer-events-none absolute top-0 right-0 h-full w-[60px] md:w-[160px] z-20'
         direction='right'
       />
 

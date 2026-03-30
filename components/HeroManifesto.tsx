@@ -74,7 +74,7 @@ const FlippingImagePill = ({
   return (
     <span
       className={cn(
-        "manifesto-element h-14 w-20 inline-block align-middle mx-[0.12em] relative will-change-[transform,opacity,filter]",
+        "manifesto-element h-10 w-16 md:h-14 md:w-20 inline-block align-middle mx-[0.12em] relative will-change-[transform,opacity,filter]",
       )}
     >
       <div
@@ -121,7 +121,7 @@ const TextPill = ({
 }) => (
   <span
     className={cn(
-      "manifesto-element font-sm inline-flex h-14 items-center whitespace-nowrap align-middle mx-[0.12em] px-[0.7em] bg-white text-[0.66em] text-neutral-900 rounded-full font-sans font-bold leading-none tracking-tight shadow-[0_10px_24px_-8px_rgba(0,0,0,0.14)] will-change-[transform,opacity,filter] border border-neutral-100",
+      "manifesto-element font-sm inline-flex h-10 md:h-14 items-center whitespace-nowrap align-middle mx-[0.12em] px-[0.7em] bg-white text-[0.66em] text-neutral-900 rounded-full font-sans font-bold leading-none tracking-tight shadow-[0_10px_24px_-8px_rgba(0,0,0,0.14)] will-change-[transform,opacity,filter] border border-neutral-100",
       className,
     )}
   >
@@ -240,41 +240,41 @@ export const HeroManifesto = () => {
         </div>
 
         {/* Hero Phrase */}
-        <div className="text-[clamp(2rem,3.85vw,4rem)] space-y-4 font-bold tracking-[-0.03em] text-neutral-900">
-          <div className="flex items-center flex-wrap justify-center md:justify-start">
-            <Word>Hi,</Word>
-            <Word>I'm</Word>
-            <FlippingImagePill
-              images={heroPortraits.intro}
-              index={0}
-            />
-            <TextPill text="Ashref" />
-          </div>
+        <div className="text-[clamp(2rem,3.85vw,4rem)] leading-[1.6] md:leading-[1.2] font-bold tracking-[-0.03em] text-neutral-900 text-center md:text-left my-4">
+          <Word>Hi,</Word>
+          <Word>I'm</Word>
+          <FlippingImagePill
+            images={heroPortraits.intro}
+            index={0}
+          />
+          <TextPill text="Ashref" />
+          
+          <br className="hidden md:block" />
 
-          <div className="flex items-center flex-wrap justify-center md:justify-start">
-            <Word>a</Word>
-            <FlippingImagePill
-              images={heroPortraits.engineer}
-              index={1}
-            />
-            <TextPill text="Software Engineer" className="mr-2" />
+          <Word>a</Word>
+          <FlippingImagePill
+            images={heroPortraits.engineer}
+            index={1}
+          />
+          <TextPill text="Software Engineer" className="mr-1 md:mr-2" />
 
-            <Word>from</Word>
-            <FlippingImagePill
-              images={heroPortraits.tunisia}
-              index={2}
-            />
-            <TextPill text="Tunisia" />
-          </div>
+          <Word>from</Word>
+          <FlippingImagePill
+            images={heroPortraits.tunisia}
+            index={2}
+          />
+          <TextPill text="Tunisia" />
 
-          <Word>Building full-stack AI solutions.</Word>
+          <br className="hidden md:block" />
+
+          <Word className="block mt-4 md:mt-0 md:inline-block">Building full-stack AI solutions.</Word>
         </div>
 
         {/* Action Buttons & Social Proof */}
-        <div className="mt-8 w-full flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pb-6 md:pb-0">
-          <div className="action-item block">
+        <div className="mt-8 md:mt-10 w-full flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pb-6 md:pb-0">
+          <div className="action-item w-full sm:w-auto">
             <PrimaryButton
-              className="px-8 py-4 text-sm"
+              className="w-full sm:w-auto justify-center px-8 py-4 text-sm"
               icon={true}
               onClick={() =>
                 document
@@ -286,8 +286,8 @@ export const HeroManifesto = () => {
             </PrimaryButton>
           </div>
 
-          <div className="action-item block">
-            <PrimaryButton variant="secondary" className="px-8 py-4 text-sm">
+          <div className="action-item w-full sm:w-auto">
+            <PrimaryButton variant="secondary" className="w-full sm:w-auto justify-center px-8 py-4 text-sm">
               Get in touch
             </PrimaryButton>
           </div>
