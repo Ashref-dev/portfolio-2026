@@ -1,4 +1,4 @@
-import { useEffect, useRef, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ReactLenis, useLenis } from 'lenis/react';
@@ -19,20 +19,60 @@ import { Footer } from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function LenisSync() {
+function LenisScrollTriggerSync() {
   useLenis(() => {
     ScrollTrigger.update();
   });
   return null;
 }
 
+function useIsCoarsePointer(): boolean {
+  const [isCoarse, setIsCoarse] = useState<boolean>(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return false;
+    return window.matchMedia('(pointer: coarse)').matches;
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mql = window.matchMedia('(pointer: coarse)');
+    const handler = (e: MediaQueryListEvent) => setIsCoarse(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
+
+  return isCoarse;
+}
+
+function AppShell() {
+  return (
+    <div className='bg-[#fafafa] min-h-screen '>
+      <Header />
+
+      <main className='relative z-10 bg-[#fafafa] shadow-2xl mb-[85vh]'>
+        <HeroManifesto />
+        <Projects />
+        <HeroIdentity />
+        <ProcessTicker />
+        <About />
+        <Services />
+        <Experience />
+        <Testimonials />
+        <Blog />
+        <div id='contact' className='h-[1px] w-full' />
+      </main>
+
+      <div className='fixed bottom-0 left-0 w-full h-[85vh] z-0'>
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
-  const lenisRef = useRef<any>(null);
+  const isTouchDevice = useIsCoarsePointer();
 
   useLayoutEffect(() => {
-    // Wait for all assets (images, fonts, etc.) to load
     const handleLoad = () => {
-      // Small timeout to ensure visual readiness
       setTimeout(() => {
         gsap.to('#preloader', {
           yPercent: -100,
@@ -54,16 +94,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    function update(time: number) {
-      lenisRef.current?.lenis?.raf(time * 1000);
-    }
-
-    gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      gsap.ticker.remove(update);
-    };
   }, []);
 
   useEffect(() => {
@@ -79,52 +110,23 @@ export default function App() {
     return () => window.removeEventListener('app-ready', handleAppReady);
   }, []);
 
+  useEffect(() => {
+    const mode = isTouchDevice ? 'native' : 'lenis';
+    const id = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      document.documentElement.dataset.scrollMode = mode;
+    });
+    return () => cancelAnimationFrame(id);
+  }, [isTouchDevice]);
+
+  if (isTouchDevice) {
+    return <AppShell />;
+  }
+
   return (
-    <ReactLenis root ref={lenisRef} options={{ autoRaf: false, anchors: true }}>
-      <LenisSync />
-
-      <div className='bg-[#fafafa] min-h-screen '>
-        {/* Global Header */}
-        <Header />
-
-        {/* Main Content Wrapper - Slides over the footer */}
-        <main className='relative z-10 bg-[#fafafa] shadow-2xl mb-[85vh]'>
-          {/* 1. Hero Manifesto (Clean Intro) */}
-          <HeroManifesto />
-
-          {/* 2. Projects Gallery (Horizontal) */}
-          <Projects />
-
-          {/* 3. Hero Identity (Dark Mode Transition) */}
-          <HeroIdentity />
-
-          {/* 4. Process Ticker (Horizontal Story) */}
-          <ProcessTicker />
-
-          {/* 5. About Me (Bio, Stats, Tech) */}
-          <About />
-
-          {/* 6. Services (Grid) */}
-          <Services />
-
-          {/* 7. Experience (Timeline) */}
-          <Experience />
-
-          {/* 8. Testimonials */}
-          <Testimonials />
-
-          {/* 9. Blog */}
-          <Blog />
-
-          {/* Footer Trigger Anchor */}
-          <div id='contact' className='h-[1px] w-full' />
-        </main>
-
-        {/* Global Footer - Fixed at the bottom */}
-        <div className='fixed bottom-0 left-0 w-full h-[85vh] z-0'>
-          <Footer />
-        </div>
-      </div>
+    <ReactLenis root options={{ autoRaf: true, anchors: true }}>
+      <LenisScrollTriggerSync />
+      <AppShell />
     </ReactLenis>
   );
 }

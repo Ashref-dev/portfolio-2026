@@ -1,13 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-@layer utilities {
-  .shadow-float {
-    box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.25);
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  .shadow-float:hover {
+@utility shadow-float {
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.25);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+
+  &:hover {
     box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.35);
     transform: translateY(-4px);
   }
@@ -28,6 +25,15 @@ html {
   color-scheme: light !important;
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  /*
+   * Explicit touch-action on the root viewport.
+   * Required to fix Chrome-on-Samsung-Galaxy (S24/S25) scroll death:
+   * without a declared pan direction, One UI's gesture-navigation
+   * pipeline arbitrates against Lenis's non-passive touch listeners
+   * and the compositor never starts vertical scrolling.
+   * `pinch-zoom` is kept for accessibility (WCAG SC 1.4.4).
+   */
+  touch-action: pan-y pinch-zoom;
 }
 
 /* Webkit Thin Scrollbar */
@@ -48,14 +54,22 @@ html {
 
 html,
 body {
-  overflow-x: hidden;
+  /*
+   * `clip` prevents horizontal overflow WITHOUT promoting the element to a
+   * scroll container (unlike `hidden`, which creates an implicit scroll
+   * root that conflicts with the real document scroller on some Chromium
+   * builds - notably Samsung Galaxy Chrome).
+   * `position: relative` intentionally removed: combined with overflow it
+   * made root hit-testing unstable on high-refresh touch pipelines.
+   */
+  overflow-x: clip;
   width: 100%;
-  position: relative;
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  overscroll-behavior: none;
+  /* Scoped to body, not html, so it never interferes with root scroll arbitration. */
+  overscroll-behavior-y: contain;
 }
 
 .landing-shell,
@@ -85,8 +99,9 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Lenis CSS */
-html.lenis {
+/* Lenis CSS - matches the official lenis/dist/lenis.css contract */
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
