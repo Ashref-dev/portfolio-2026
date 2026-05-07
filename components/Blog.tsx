@@ -36,7 +36,7 @@ const blogPosts: BlogPost[] = [
   },
   {
     id: '02',
-    title: 'A few things about improving productivity',
+    title: 'A few things about productivity',
     category: 'Productivity',
     description:
       'A few notes on on how to boost your productivity with some simple but effective advice.',
