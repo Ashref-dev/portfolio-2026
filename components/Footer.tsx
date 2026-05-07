@@ -6,7 +6,7 @@ import {
     ExternalLink,
     FileText,
     Globe,
-    Code2,
+  Database,
     Palette,
 } from 'lucide-react';
 
@@ -78,19 +78,19 @@ export const Footer = () => {
   const socialLinks = [
     {
       label: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/mohamedashrefbna/',
+      href: 'https://www.linkedin.com/in/achrafbenabdallah/',
       icon: Linkedin,
     },
     {
       label: 'Behance',
-      href: 'https://www.behance.net/mohamedashrefbna',
+      href: 'https://www.behance.net/MohamedAshrefBna',
       icon: Palette,
     },
     { label: 'GitHub', href: 'https://github.com/Ashref-dev', icon: Github },
     {
-      label: 'LeetCode',
-      href: 'https://leetcode.com/u/mohamedashrefbenabdallah/',
-      icon: Code2,
+      label: 'Kaggle',
+      href: 'https://www.kaggle.com/mohamedashrefbna',
+      icon: Database,
     },
   ];
 
@@ -133,7 +133,7 @@ export const Footer = () => {
         <div className='group/cta flex flex-col items-center'>
           <div ref={magneticRef} className='relative cursor-pointer'>
           <a
-            href='mailto:hi@ashref.tn'
+            href='mailto:hi@achraf.tn'
             target='_blank'
             rel='noopener noreferrer'
             className='block text-center relative z-10'
@@ -154,10 +154,10 @@ export const Footer = () => {
 
           <div className='mt-16 opacity-100 md:opacity-0 group-hover/cta:opacity-100 transition-all duration-500 translate-y-0 md:translate-y-4 group-hover/cta:translate-y-0 flex flex-col items-center gap-3 w-full'>
             <p className='text-neutral-500 font-sans text-[11px] font-bold tracking-[0.4em] uppercase ml-[0.2em]'>
-              hi@ashref.tn
+              hi@achraf.tn
             </p>
             <a
-              href='https://www.linkedin.com/in/mohamedashrefbna/'
+              href='https://www.linkedin.com/in/achrafbenabdallah/'
               target='_blank'
               rel='noopener noreferrer'
               className='text-neutral-500 underline underline-offset-4 underline-red-600 font-sans text-[11px] font-medium hover:text-neutral-400 transition-colors duration-300 text-center'
@@ -197,7 +197,7 @@ export const Footer = () => {
         <div className='flex flex-col md:flex-row items-center gap-6 lg:gap-8'>
           <div className='flex flex-col items-center md:items-start gap-1.5'>
             <p className='text-[9px] font-sans font-bold tracking-[0.3em] text-neutral-600 uppercase text-center md:text-left'>
-              &copy; {new Date().getFullYear()} Ashref.tn
+              &copy; {new Date().getFullYear()} Achraf.tn
             </p>
             <p className='text-[7px] font-sans uppercase tracking-[0.25em] text-neutral-500 text-center md:text-left'>
               Photos by <a href='https://www.pexels.com/@aemyr-sahli-154798633/' target='_blank' rel='noopener noreferrer' className='hover:text-rose-600 transition-colors duration-300 font-bold'>Aemir Sahli</a>

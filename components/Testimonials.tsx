@@ -23,7 +23,7 @@ const testimonials = [
     image: '/assets/testimonials/taha.jpg',
     colorHex: 'text-blue-600',
     bgPill: 'bg-blue-100',
-    text: "Ashref consistently exceeds expectations. He's not afraid to push boundaries and come up with innovative solutions. He's a valuable asset to any team.",
+    text: "Achraf consistently exceeds expectations. He's not afraid to push boundaries and come up with innovative solutions. He's a valuable asset to any team.",
     accentIndices: [16, 17, 18, 19, 20, 21, 22],
   },
 ];

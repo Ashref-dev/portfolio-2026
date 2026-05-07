@@ -167,7 +167,7 @@ export const Header = () => {
               </NavLink>
             </div>
             <PrimaryButton
-              href="https://linkedin.com/in/mohamedashrefbna"
+              href="https://www.linkedin.com/in/achrafbenabdallah/"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-2.5 text-[11px]"
@@ -201,7 +201,7 @@ export const Header = () => {
             { label: "Resume", href: "#contact", external: false, button: false },
             {
               label: "Let's Talk",
-              href: "mailto:hi@ashref.tn",
+              href: "mailto:hi@achraf.tn",
               external: false,
               button: true,
             },
@@ -226,7 +226,7 @@ export const Header = () => {
 
         {/* Mobile Socials or Info */}
         <div className="mobile-link absolute bottom-12 left-0 w-full px-12 flex justify-between items-end text-[10px] tracking-widest uppercase text-neutral-400">
-          <div>{new Date().getFullYear()} ashref.tn</div>
+          <div>{new Date().getFullYear()} achraf.tn</div>
           <div>TUNIS, TN</div>
         </div>
       </div>

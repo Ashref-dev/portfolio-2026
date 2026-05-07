@@ -108,7 +108,7 @@ export const About = () => {
 
           <div className='w-full md:w-2/3 pt-2'>
             <p className='about-reveal text-xl md:text-2xl font-light leading-relaxed text-neutral-800 max-w-2xl'>
-              I'm <strong className='font-semibold text-black'>Ashref</strong>.
+              I'm <strong className='font-semibold text-black'>Achraf</strong>.
               I bridge the gap between heavy backend logic and the human
               experience. From dynamically provisioning cloud containers to
               tuning AI agents for real-world reasoning, I care about the{' '}

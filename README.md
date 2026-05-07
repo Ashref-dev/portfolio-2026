@@ -1,6 +1,6 @@
-# ashref.tn
+# achraf.tn
 
-Personal portfolio of Mohamed Ashref Ben Abdallah — AI Engineer and Full-stack Developer based in Tunis, Tunisia.
+Personal portfolio of Achraf Ben Abdallah — AI Engineer and Full-stack Developer based in Tunis, Tunisia.
 
 ## Stack
 
@@ -45,5 +45,5 @@ Output is placed in `dist/`. Deployed automatically on push to `main` via Vercel
 
 ## Contact
 
-hi@ashref.tn  
-https://ashref.tn
+hi@achraf.tn  
+https://achraf.tn

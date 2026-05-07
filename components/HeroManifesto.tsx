@@ -247,7 +247,7 @@ export const HeroManifesto = () => {
             images={heroPortraits.intro}
             index={0}
           />
-          <TextPill text="Ashref" />
+          <TextPill text="Achraf" />
           
           <br className="hidden md:block" />
 
