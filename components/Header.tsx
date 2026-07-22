@@ -43,6 +43,7 @@ export const Header = () => {
 
   useLayoutEffect(() => {
     let ctx: gsap.Context;
+    let hasStarted = false;
 
     // Immediately hide elements to prevent flicker
     gsap.set(headerRef.current?.querySelectorAll(".nav-item") || [], { 
@@ -50,6 +51,9 @@ export const Header = () => {
     });
 
     const startAnimation = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+
       ctx = gsap.context(() => {
         const navItems = gsap.utils.toArray(".nav-item");
 
@@ -66,13 +70,12 @@ export const Header = () => {
     };
 
     window.addEventListener('app-ready', startAnimation);
+    const readyFallback = window.setTimeout(startAnimation, 2200);
 
-    // In case preloader already finished or we hot-reloaded
-    if (document.readyState === 'complete' && !document.getElementById('preloader')?.style.transform) {
-      // fallback just in case
-    }
+    if (document.documentElement.dataset.appReady === 'true') startAnimation();
 
     return () => {
+      window.clearTimeout(readyFallback);
       window.removeEventListener('app-ready', startAnimation);
       ctx?.revert();
     };

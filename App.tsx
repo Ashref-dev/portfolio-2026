@@ -27,28 +27,29 @@ function LenisScrollTriggerSync() {
 }
 
 function useIsCoarsePointer(): boolean {
-  const [isCoarse, setIsCoarse] = useState<boolean>(() => {
+  const [isCoarse] = useState<boolean>(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return false;
-    return window.matchMedia('(pointer: coarse)').matches;
-  });
 
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    const mql = window.matchMedia('(pointer: coarse)');
-    const handler = (e: MediaQueryListEvent) => setIsCoarse(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
+    return (
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(hover: none)').matches ||
+      navigator.maxTouchPoints > 0
+    );
   }, []);
 
   return isCoarse;
 }
 
-function AppShell() {
+function AppShell({ isTouchDevice }: { isTouchDevice: boolean }) {
   return (
     <div className='bg-[#fafafa] min-h-screen '>
       <Header />
 
-      <main className='relative z-10 mb-[85dvh] bg-[#fafafa] shadow-2xl md:mb-[85vh]'>
+      <main
+        className={`relative z-10 bg-[#fafafa] shadow-2xl ${
+          isTouchDevice ? '' : 'mb-[85vh]'
+        }`}
+      >
         <HeroManifesto />
         <Projects />
         <HeroIdentity />
@@ -61,7 +62,13 @@ function AppShell() {
         <div id='contact' className='h-[1px] w-full' />
       </main>
 
-      <div className='fixed bottom-0 left-0 z-0 h-[85dvh] w-full pointer-events-none md:h-[85vh] md:pointer-events-auto'>
+      <div
+        className={
+          isTouchDevice
+            ? 'relative z-0 min-h-[85dvh]'
+            : 'fixed bottom-0 left-0 z-0 h-[85vh] w-full'
+        }
+      >
         <Footer />
       </div>
     </div>
@@ -79,6 +86,7 @@ export default function App() {
           duration: 1.2,
           ease: 'power4.inOut',
           onComplete: () => {
+            document.documentElement.dataset.appReady = 'true';
             window.dispatchEvent(new CustomEvent('app-ready'));
           },
         });
@@ -120,13 +128,13 @@ export default function App() {
   }, [isTouchDevice]);
 
   if (isTouchDevice) {
-    return <AppShell />;
+    return <AppShell isTouchDevice />;
   }
 
   return (
     <ReactLenis root options={{ autoRaf: true, anchors: true }}>
       <LenisScrollTriggerSync />
-      <AppShell />
+      <AppShell isTouchDevice={false} />
     </ReactLenis>
   );
 }

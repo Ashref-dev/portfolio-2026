@@ -156,6 +156,7 @@ export const HeroManifesto = () => {
 
   useLayoutEffect(() => {
     let ctx: gsap.Context;
+    let hasStarted = false;
     const elements =
       containerRef.current?.querySelectorAll(".manifesto-element") || [];
     const badge = containerRef.current?.querySelector(".avail-badge");
@@ -173,6 +174,9 @@ export const HeroManifesto = () => {
     gsap.set(actions, { y: 20, opacity: 0 });
 
     const startAnimation = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+
       ctx = gsap.context(() => {
         const tl = gsap.timeline({
           defaults: { ease: "power3.out" },
@@ -203,16 +207,12 @@ export const HeroManifesto = () => {
     };
 
     window.addEventListener("app-ready", startAnimation);
+    const readyFallback = window.setTimeout(startAnimation, 2200);
 
-    // Initial fallback if preloader fired before mount
-    if (
-      document.readyState === "complete" &&
-      !document.getElementById("preloader")?.style.transform
-    ) {
-      // fallback ignored
-    }
+    if (document.documentElement.dataset.appReady === "true") startAnimation();
 
     return () => {
+      window.clearTimeout(readyFallback);
       window.removeEventListener("app-ready", startAnimation);
       ctx?.revert();
     };

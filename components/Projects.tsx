@@ -55,6 +55,7 @@ export const Projects = () => {
 
   useLayoutEffect(() => {
     let ctx: gsap.Context | undefined;
+    let hasStarted = false;
     const hoverCleanups: Array<() => void> = [];
 
     const initCtx = gsap.context(() => {
@@ -183,6 +184,9 @@ export const Projects = () => {
     };
 
     const startAnimation = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+
       ctx = gsap.context(() => {
         const tl = gsap.timeline({ delay: 1.0 });
 
@@ -215,16 +219,12 @@ export const Projects = () => {
     };
 
     window.addEventListener("app-ready", startAnimation);
+    const readyFallback = window.setTimeout(startAnimation, 2200);
 
-    // Initial fallback if preloader fired before mount
-    if (
-      document.readyState === "complete" &&
-      !document.getElementById("preloader")?.style.transform
-    ) {
-      // fallback ignored
-    }
+    if (document.documentElement.dataset.appReady === "true") startAnimation();
 
     return () => {
+      window.clearTimeout(readyFallback);
       window.removeEventListener("app-ready", startAnimation);
       hoverCleanups.forEach((cleanup) => cleanup());
       initCtx.revert();

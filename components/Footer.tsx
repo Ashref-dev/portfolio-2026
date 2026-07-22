@@ -123,7 +123,7 @@ export const Footer = () => {
   return (
     <footer
       ref={containerRef}
-      className='relative h-full bg-neutral-900 flex flex-col items-center justify-between py-24 px-6 overflow-hidden pointer-events-none [&_a]:pointer-events-auto md:pointer-events-auto'
+      className='relative min-h-[85dvh] bg-neutral-900 flex flex-col items-center justify-between py-24 px-6 overflow-hidden md:min-h-0 md:h-full'
       style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
     >
       {/* Background Architectural Grid */}
