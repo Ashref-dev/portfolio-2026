@@ -167,9 +167,7 @@ export const Header = () => {
               </NavLink>
             </div>
             <PrimaryButton
-              href="https://www.linkedin.com/in/achrafbenabdallah/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#contact"
               className="px-6 py-2.5 text-[11px]"
               icon={true}
             >
@@ -201,7 +199,7 @@ export const Header = () => {
             { label: "Resume", href: "#contact", external: false, button: false },
             {
               label: "Let's Talk",
-              href: "mailto:hi@achraf.tn",
+              href: "#contact",
               external: false,
               button: true,
             },

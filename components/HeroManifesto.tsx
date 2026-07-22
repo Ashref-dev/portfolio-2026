@@ -287,7 +287,15 @@ export const HeroManifesto = () => {
           </div>
 
           <div className="action-item w-full sm:w-auto">
-            <PrimaryButton variant="secondary" className="w-full sm:w-auto justify-center px-8 py-4 text-sm">
+            <PrimaryButton
+              variant="secondary"
+              className="w-full sm:w-auto justify-center px-8 py-4 text-sm"
+              onClick={() =>
+                document
+                  .getElementById("contact")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
               Get in touch
             </PrimaryButton>
           </div>

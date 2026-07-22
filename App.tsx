@@ -48,7 +48,7 @@ function AppShell() {
     <div className='bg-[#fafafa] min-h-screen '>
       <Header />
 
-      <main className='relative z-10 bg-[#fafafa] shadow-2xl mb-[85vh]'>
+      <main className='relative z-10 mb-[85dvh] bg-[#fafafa] shadow-2xl md:mb-[85vh]'>
         <HeroManifesto />
         <Projects />
         <HeroIdentity />
@@ -61,7 +61,7 @@ function AppShell() {
         <div id='contact' className='h-[1px] w-full' />
       </main>
 
-      <div className='fixed bottom-0 left-0 w-full h-[85vh] z-0'>
+      <div className='fixed bottom-0 left-0 z-0 h-[85dvh] w-full pointer-events-none md:h-[85vh] md:pointer-events-auto'>
         <Footer />
       </div>
     </div>

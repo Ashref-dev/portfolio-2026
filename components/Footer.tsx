@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import {
     Linkedin,
@@ -10,12 +10,38 @@ import {
     Palette,
 } from 'lucide-react';
 
+function useIsCoarsePointer(): boolean {
+  const [isCoarse, setIsCoarse] = useState(() =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(pointer: coarse)').matches,
+  );
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const mediaQuery = window.matchMedia('(pointer: coarse)');
+    const updatePointerType = () => setIsCoarse(mediaQuery.matches);
+    mediaQuery.addEventListener('change', updatePointerType);
+
+    return () => mediaQuery.removeEventListener('change', updatePointerType);
+  }, []);
+
+  return isCoarse;
+}
+
 export const Footer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const magneticRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
+  const isCoarsePointer = useIsCoarsePointer();
 
   useLayoutEffect(() => {
+    if (isCoarsePointer) {
+      if (magneticRef.current) gsap.set(magneticRef.current, { x: 0, y: 0 });
+      if (glowRef.current) gsap.set(glowRef.current, { x: 0, y: 0 });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       const magnetic = magneticRef.current;
       const glow = glowRef.current;
@@ -73,7 +99,7 @@ export const Footer = () => {
       };
     }, containerRef);
     return () => ctx.revert();
-  }, []);
+  }, [isCoarsePointer]);
 
   const socialLinks = [
     {
@@ -97,7 +123,7 @@ export const Footer = () => {
   return (
     <footer
       ref={containerRef}
-      className='relative h-full bg-neutral-900 flex flex-col items-center justify-between py-24 px-6 overflow-hidden'
+      className='relative h-full bg-neutral-900 flex flex-col items-center justify-between py-24 px-6 overflow-hidden pointer-events-none [&_a]:pointer-events-auto md:pointer-events-auto'
       style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
     >
       {/* Background Architectural Grid */}
@@ -131,7 +157,11 @@ export const Footer = () => {
         </div>
 
         <div className='group/cta flex flex-col items-center'>
-          <div ref={magneticRef} className='relative cursor-pointer'>
+          <div
+            ref={magneticRef}
+            className='relative cursor-pointer'
+            style={isCoarsePointer ? { transform: 'translate3d(0, 0, 0)' } : undefined}
+          >
           <a
             href='mailto:hi@achraf.tn'
             target='_blank'
