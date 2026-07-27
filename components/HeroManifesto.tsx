@@ -239,8 +239,11 @@ export const HeroManifesto = () => {
           Not available for work
         </div>
 
-        {/* Hero Phrase */}
-        <div className="text-[clamp(2rem,3.85vw,4rem)] leading-[1.6] md:leading-[1.2] font-bold tracking-[-0.03em] text-neutral-900 text-center md:text-left my-4">
+        {/* Hero Phrase — semantic <h1>. Tailwind preflight zeroes heading
+            margins and resets font-size/weight to inherit, so this renders
+            pixel-identically to the previous <div> while giving crawlers the
+            page's primary topical signal. */}
+        <h1 className="text-[clamp(2rem,3.85vw,4rem)] leading-[1.6] md:leading-[1.2] font-bold tracking-[-0.03em] text-neutral-900 text-center md:text-left my-4">
           <Word>Hi,</Word>
           <Word>I'm</Word>
           <FlippingImagePill
@@ -268,7 +271,7 @@ export const HeroManifesto = () => {
           <br className="hidden md:block" />
 
           <Word className="block mt-4 md:mt-0 md:inline-block">Building full-stack AI solutions.</Word>
-        </div>
+        </h1>
 
         {/* Action Buttons & Social Proof */}
         <div className="mt-8 md:mt-10 w-full flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pb-6 md:pb-0">

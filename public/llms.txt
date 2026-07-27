@@ -1,0 +1,31 @@
+# Achraf Ben Abdallah — AI Engineer in Tunis, Tunisia
+
+> Achraf Ben Abdallah (also written Ashref) is a full-stack AI engineer based in Tunis, Tunisia. He builds agentic AI systems, retrieval-augmented generation pipelines, high-performance Go microservices, and resilient cloud deployment platforms on AWS and Azure. He is 4x Microsoft Certified and has delivered 20+ production projects.
+
+This is the official personal portfolio of Achraf Ben Abdallah. Contact: hi@achraf.tn
+
+## Profile
+
+- [Portfolio home](https://achraf.tn/): Overview of who Achraf is, what he builds, and how to reach him.
+- [About](https://achraf.tn/#about): Background, certifications, and the technologies he works with day to day — Python, Go, Next.js, AWS, Azure, Docker, PostgreSQL, agentic AI.
+- [Experience](https://achraf.tn/#experience): Professional history, currently AI Engineer at Lameh AI, previously Software Engineer at HeloSolutions and Bookme OÜ, and Solutions Developer at Forvia.
+- [Services](https://achraf.tn/#services): Cloud, backend, and frontend engineering services.
+- [Résumé (PDF)](https://achraf.tn/assets/resume_ashref.pdf): Full curriculum vitae.
+
+## Selected work
+
+- [Entretien AI](https://entretien-ai.com/): AI-powered interview preparation platform.
+- [Azure Digital Twins wind farm](https://github.com/Ashref-dev/Azure-digitaltwins-windfarm): Digital-twin simulation of a wind farm on Azure.
+- [Medicheck AR](https://github.com/Ashref-dev/Medicheck-ar-project): Augmented-reality medical checking application.
+- [Sbiba heritage](https://sbiba.vercel.app/): Cultural heritage web project for Sbiba, Tunisia.
+
+## Elsewhere
+
+- [GitHub](https://github.com/Ashref-dev): Open-source code and project repositories.
+- [LinkedIn](https://www.linkedin.com/in/achrafbenabdallah/): Professional profile and work history.
+- [Kaggle](https://www.kaggle.com/mohamedashrefbna): Data science and machine learning work.
+- [ashref.tn](https://ashref.tn/): Companion site hosting his side projects and tools.
+
+## Optional
+
+- [Behance](https://www.behance.net/MohamedAshrefBna): Design and visual work.
