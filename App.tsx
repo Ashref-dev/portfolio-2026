@@ -35,7 +35,7 @@ function useIsCoarsePointer(): boolean {
       window.matchMedia('(hover: none)').matches ||
       navigator.maxTouchPoints > 0
     );
-  }, []);
+  });
 
   return isCoarse;
 }
