@@ -37,11 +37,11 @@ const MARQUEE_IDS = [
 ] as const;
 
 const wallpaperById = new Map<string, Wallpaper>(
-  wallpapers.map((wallpaper) => [wallpaper.id, wallpaper])
+  wallpapers.map((wallpaper) => [wallpaper.id, wallpaper]),
 );
 
 const curated = MARQUEE_IDS.map((id) => wallpaperById.get(id)).filter(
-  (wallpaper): wallpaper is Wallpaper => wallpaper !== undefined
+  (wallpaper): wallpaper is Wallpaper => wallpaper !== undefined,
 );
 
 /**
@@ -68,7 +68,7 @@ function usePrefersReducedMotion(): boolean {
     () => {
       if (typeof window === 'undefined' || !window.matchMedia) return false;
       return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
+    },
   );
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export const WallpaperTeaser: React.FC = () => {
   const stillTiles = [...marqueeWallpapers, ...marqueeWallpapers].map(
     (wallpaper, index) => (
       <PhoneTile key={`${wallpaper.id}-${index}`} wallpaper={wallpaper} />
-    )
+    ),
   );
 
   return (
@@ -207,14 +207,14 @@ export const WallpaperTeaser: React.FC = () => {
                 id='wallpaper-teaser-title'
                 className='wt-reveal mt-6 text-[clamp(2.5rem,6vw,4.5rem)] font-bold leading-[0.9] tracking-tighter text-[#fafafa]'
               >
-                {WALLPAPER_COUNT} wallpapers,
+                Wallpapers,
                 <span className='mt-2 block font-serif font-light italic text-blue-400'>
                   on the house.
                 </span>
               </h2>
 
               <p className='wt-reveal mt-4 max-w-sm font-sans text-sm leading-relaxed text-neutral-400 md:mt-5 md:text-[15px]'>
-                Drafting grids and angle arcs laid over soft silk gradients,
+                Drafting grids and angle arcs laid over soft silk colors,
                 made for iPhone at full native resolution. Free.
               </p>
 
@@ -228,7 +228,7 @@ export const WallpaperTeaser: React.FC = () => {
                     'border-transparent bg-white text-neutral-900',
                     'hover:border-transparent hover:bg-neutral-100',
                     'shadow-[0_20px_45px_-14px_rgba(0,0,0,0.7)] hover:shadow-[0_30px_60px_-16px_rgba(0,0,0,0.85)]',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900'
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900',
                   )}
                 >
                   Get the pack
@@ -256,9 +256,7 @@ export const WallpaperTeaser: React.FC = () => {
                 <div className='relative'>
                   {prefersReducedMotion ? (
                     <div className='w-full select-none overflow-hidden'>
-                      <div className='flex w-max gap-4'>
-                        {stillTiles}
-                      </div>
+                      <div className='flex w-max gap-4'>{stillTiles}</div>
                     </div>
                   ) : (
                     <InfiniteSlider
