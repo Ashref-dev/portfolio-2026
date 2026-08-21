@@ -25,3 +25,9 @@ dist-ssr
 *.sw?
 .vercel
 .playwright-mcp/
+
+# Agent scratch
+.omo/
+
+# Generated at build time from the committed originals (~120 MB)
+public/wallpapers/achraf-wallpaper-pack.zip

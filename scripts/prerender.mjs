@@ -18,25 +18,47 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ssgEntry = path.join(projectRoot, '.ssg', 'entry-server.mjs');
-const distHtml = path.join(projectRoot, 'dist', 'index.html');
-const tmpHtml = `${distHtml}.tmp`;
 
 const ROOT_PLACEHOLDER = '<div id="root"></div>';
-const MIN_MARKUP_LENGTH = 20_000;
 
 /**
- * Phrases that must survive into the snapshot. These are load-bearing for both
- * SEO intent (geo + role tokens) and for proving the page rendered in full
- * rather than bailing out partway through the component tree.
+ * One entry per HTML document emitted by the MPA build.
+ *
+ * `requiredPhrases` are load-bearing for both SEO intent and for proving the
+ * page rendered in full rather than bailing out partway through the component
+ * tree. `minLength` guards against a tree that renders but collapses.
  */
-const REQUIRED_PHRASES = [
-  'Achraf',
-  'Software Engineer',
-  'Tunisia',
-  'Tunis, TN',
-  'Building full-stack AI solutions.',
-  'HeloSolutions',
-  'id="contact"',
+const PAGES = [
+  {
+    label: 'home',
+    exportName: 'render',
+    html: path.join(projectRoot, 'dist', 'index.html'),
+    minLength: 20_000,
+    requiredPhrases: [
+      'Achraf',
+      'Software Engineer',
+      'Tunisia',
+      'Tunis, TN',
+      'Building full-stack AI solutions.',
+      'HeloSolutions',
+      'id="contact"',
+    ],
+  },
+  {
+    label: 'wallpapers',
+    exportName: 'renderWallpapers',
+    html: path.join(projectRoot, 'dist', 'wallpapers', 'index.html'),
+    minLength: 8_000,
+    requiredPhrases: [
+      'Achraf',
+      'Wallpapers',
+      '1572',
+      '3408',
+      'Every better decision builds a',
+      "Circumstances don't",
+      'Save',
+    ],
+  },
 ];
 
 function fail(message) {
@@ -44,53 +66,133 @@ function fail(message) {
   process.exit(1);
 }
 
+async function prerenderPage(mod, page) {
+  const rel = path.relative(projectRoot, page.html);
+
+  if (!existsSync(page.html)) {
+    fail(`missing ${rel}. Run \`vite build\` first.`);
+  }
+  if (typeof mod[page.exportName] !== 'function') {
+    fail(`SSR bundle does not export ${page.exportName}().`);
+  }
+
+  let markup;
+  try {
+    markup = mod[page.exportName]();
+  } catch (error) {
+    fail(`${page.exportName}() threw: ${error?.stack ?? error}`);
+  }
+
+  if (typeof markup !== 'string' || markup.length < page.minLength) {
+    fail(`[${page.label}] markup too short (${markup?.length ?? 0} chars, expected >= ${page.minLength}). ` +
+      'The component tree probably did not render completely.');
+  }
+
+  const missing = page.requiredPhrases.filter((phrase) => !markup.includes(phrase));
+  if (missing.length > 0) {
+    fail(`[${page.label}] snapshot is missing required content: ${missing.join(', ')}`);
+  }
+
+  const html = await readFile(page.html, 'utf8');
+  const occurrences = html.split(ROOT_PLACEHOLDER).length - 1;
+  if (occurrences !== 1) {
+    fail(`[${page.label}] expected exactly one \`${ROOT_PLACEHOLDER}\` in ${rel}, found ${occurrences}.`);
+  }
+
+  const injected = html.replace(ROOT_PLACEHOLDER, `<div id="root">${markup}</div>`);
+
+  // Write-then-rename so a crash midway cannot leave a truncated document.
+  const tmpHtml = `${page.html}.tmp`;
+  await writeFile(tmpHtml, injected, 'utf8');
+  await rename(tmpHtml, page.html);
+
+  const before = (html.length / 1024).toFixed(1);
+  const after = (injected.length / 1024).toFixed(1);
+  console.log(
+    `[prerender] OK  ${rel}  ${before} kB -> ${after} kB  ` +
+      `(+${(markup.length / 1024).toFixed(1)} kB of crawlable markup)`
+  );
+}
+
+const SITE = 'https://achraf.tn';
+
+const escapeXml = (value) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+
+/**
+ * Emitted from the same typed data the page renders, so the image sitemap can
+ * never fall out of step with the pack.
+ */
+async function writeSitemap(wallpapers) {
+  if (!Array.isArray(wallpapers) || wallpapers.length === 0) {
+    fail('SSR bundle exported no wallpapers; refusing to emit an empty sitemap.');
+  }
+
+  const today = new Date().toISOString().slice(0, 10);
+
+  const images = wallpapers
+    .map((wallpaper) => {
+      const quote = `${wallpaper.quote.before}${wallpaper.quote.em}${wallpaper.quote.after}`;
+      const title = `${wallpaper.colorway} iPhone wallpaper — "${quote}"`;
+      const caption =
+        `Free 1572 x 3408 iPhone wallpaper by Achraf Ben Abdallah: a blueprint drafting grid ` +
+        `over a soft ${wallpaper.colorway.toLowerCase()} gradient, reading "${quote}".`;
+      return (
+        '    <image:image>\n' +
+        `      <image:loc>${SITE}${wallpaper.full}</image:loc>\n` +
+        `      <image:title>${escapeXml(title)}</image:title>\n` +
+        `      <image:caption>${escapeXml(caption)}</image:caption>\n` +
+        '    </image:image>'
+      );
+    })
+    .join('\n');
+
+  const xml =
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+    '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' +
+    `  <url>\n    <loc>${SITE}/</loc>\n    <lastmod>${today}</lastmod>\n` +
+    '    <changefreq>monthly</changefreq>\n    <priority>1.0</priority>\n  </url>\n' +
+    `  <url>\n    <loc>${SITE}/wallpapers</loc>\n    <lastmod>${today}</lastmod>\n` +
+    '    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n' +
+    images +
+    '\n  </url>\n' +
+    `  <url>\n    <loc>${SITE}/assets/resume_ashref.pdf</loc>\n    <lastmod>${today}</lastmod>\n` +
+    '    <changefreq>yearly</changefreq>\n    <priority>0.5</priority>\n  </url>\n' +
+    '</urlset>\n';
+
+  const target = path.join(projectRoot, 'dist', 'sitemap.xml');
+  await writeFile(target, xml, 'utf8');
+  console.log(
+    `[prerender] OK  dist/sitemap.xml  ${wallpapers.length} wallpaper images indexed`
+  );
+}
+
 async function main() {
   if (!existsSync(ssgEntry)) {
     fail(`missing SSR bundle at ${path.relative(projectRoot, ssgEntry)}. ` +
       'Run `vite build --config vite.ssg.config.ts` first.');
   }
-  if (!existsSync(distHtml)) {
-    fail(`missing ${path.relative(projectRoot, distHtml)}. Run \`vite build\` first.`);
-  }
 
-  let markup;
+  let mod;
   try {
-    const mod = await import(pathToFileURL(ssgEntry).href);
-    if (typeof mod.render !== 'function') {
-      fail('SSR bundle does not export a render() function.');
-    }
-    markup = mod.render();
+    mod = await import(pathToFileURL(ssgEntry).href);
   } catch (error) {
-    fail(`render() threw: ${error?.stack ?? error}`);
+    fail(`could not load SSR bundle: ${error?.stack ?? error}`);
   }
 
-  if (typeof markup !== 'string' || markup.length < MIN_MARKUP_LENGTH) {
-    fail(`markup too short (${markup?.length ?? 0} chars, expected >= ${MIN_MARKUP_LENGTH}). ` +
-      'The component tree probably did not render completely.');
+  for (const page of PAGES) {
+    await prerenderPage(mod, page);
   }
 
-  const missing = REQUIRED_PHRASES.filter((phrase) => !markup.includes(phrase));
-  if (missing.length > 0) {
-    fail(`snapshot is missing required content: ${missing.join(', ')}`);
-  }
-
-  const html = await readFile(distHtml, 'utf8');
-  const occurrences = html.split(ROOT_PLACEHOLDER).length - 1;
-  if (occurrences !== 1) {
-    fail(`expected exactly one \`${ROOT_PLACEHOLDER}\` in dist/index.html, found ${occurrences}.`);
-  }
-
-  const injected = html.replace(ROOT_PLACEHOLDER, `<div id="root">${markup}</div>`);
-
-  // Write-then-rename so a crash midway cannot leave a truncated index.html.
-  await writeFile(tmpHtml, injected, 'utf8');
-  await rename(tmpHtml, distHtml);
+  await writeSitemap(mod.wallpapers);
 
   await rm(path.join(projectRoot, '.ssg'), { recursive: true, force: true });
-
-  const before = (html.length / 1024).toFixed(1);
-  const after = (injected.length / 1024).toFixed(1);
-  console.log(`[prerender] OK  ${before} kB -> ${after} kB  (+${(markup.length / 1024).toFixed(1)} kB of crawlable markup)`);
 }
 
 main().catch((error) => fail(error?.stack ?? String(error)));

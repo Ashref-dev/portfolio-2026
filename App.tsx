@@ -1,10 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ReactLenis, useLenis } from 'lenis/react';
 // @ts-ignore
 import 'lenis/dist/lenis.css';
 
+import { useIsCoarsePointer } from './lib/useIsCoarsePointer';
 import { Header } from './components/Header';
 import { HeroManifesto } from './components/HeroManifesto';
 import { HeroIdentity } from './components/HeroIdentity';
@@ -15,6 +16,7 @@ import { Experience } from './components/Experience';
 import { Projects } from './components/Projects';
 import { Testimonials } from './components/Testimonials';
 import { Blog } from './components/Blog';
+import { WallpaperTeaser } from './components/WallpaperTeaser';
 import { Footer } from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,20 +26,6 @@ function LenisScrollTriggerSync() {
     ScrollTrigger.update();
   });
   return null;
-}
-
-function useIsCoarsePointer(): boolean {
-  const [isCoarse] = useState<boolean>(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return false;
-
-    return (
-      window.matchMedia('(pointer: coarse)').matches ||
-      window.matchMedia('(hover: none)').matches ||
-      navigator.maxTouchPoints > 0
-    );
-  });
-
-  return isCoarse;
 }
 
 function AppShell({ isTouchDevice }: { isTouchDevice: boolean }) {
@@ -59,6 +47,7 @@ function AppShell({ isTouchDevice }: { isTouchDevice: boolean }) {
         <Experience />
         <Testimonials />
         <Blog />
+        <WallpaperTeaser />
         <div id='contact' className='h-[1px] w-full' />
       </main>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { startPageAnalytics } from './lib/analytics';
 import './index.css';
 
 const rootElement = document.getElementById('root');
@@ -19,3 +20,5 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+startPageAnalytics('home');

@@ -12,6 +12,10 @@ This is the official personal portfolio of Achraf Ben Abdallah. Contact: hi@achr
 - [Services](https://achraf.tn/#services): Cloud, backend, and frontend engineering services.
 - [Résumé (PDF)](https://achraf.tn/assets/resume_ashref.pdf): Full curriculum vitae.
 
+## Free downloads
+
+- [iPhone wallpapers — The Blueprint Pack](https://achraf.tn/wallpapers): 21 original iPhone wallpapers designed by Achraf, free to download individually with no signup. Each is a technical drafting grid over a soft gradient, carrying one typeset line. Exported at 1572 × 3408 pixels for iPhone 16 and every recent model.
+
 ## Selected work
 
 - [Entretien AI](https://entretien-ai.com/): AI-powered interview preparation platform.
