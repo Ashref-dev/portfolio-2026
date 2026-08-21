@@ -9,25 +9,42 @@ const NavLink = ({
   onClick,
   isScrolled,
   name = "",
+  isCurrent = false,
 }: {
   children?: React.ReactNode;
   href: string;
   onClick?: () => void;
   isScrolled: boolean;
   name?: string;
+  isCurrent?: boolean;
 }) => (
   <a
     href={href}
     onClick={onClick}
     title={name}
+    aria-current={isCurrent ? "page" : undefined}
     className={`nav-item relative font-sans text-[10px] uppercase tracking-[0.2em] transition-colors duration-300 group text-neutral-900`}
   >
     {children}
-    <span className="absolute -bottom-1 left-0 w-0 h-px bg-current transition-all duration-300 group-hover:w-full" />
+    <span
+      className={`absolute -bottom-1 left-0 h-px bg-current transition-all duration-300 group-hover:w-full ${
+        isCurrent ? "w-full" : "w-0"
+      }`}
+    />
   </a>
 );
 
-export const Header = () => {
+interface HeaderProps {
+  /**
+   * Prefix for in-page anchors. Empty on the home page so Lenis keeps
+   * handling `#work` locally; `/` on other routes so the same links navigate
+   * home first instead of hunting for a section that is not there.
+   */
+  anchorBase?: string;
+  current?: 'home' | 'wallpapers';
+}
+
+export const Header = ({ anchorBase = '', current = 'home' }: HeaderProps) => {
   const headerRef = useRef<HTMLElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -155,14 +172,25 @@ export const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-12">
             <div className="flex gap-8">
-              <NavLink href="#work" isScrolled={isScrolled} name="Work">
+              <NavLink href={`${anchorBase}#work`} isScrolled={isScrolled} name="Work">
                 Work
               </NavLink>
-              <NavLink href="#about" isScrolled={isScrolled} name="About">
+              <NavLink href={`${anchorBase}#about`} isScrolled={isScrolled} name="About">
                 About
               </NavLink>
               <NavLink
-                href="#contact"
+                href="/wallpapers"
+                isScrolled={isScrolled}
+                name="Free iPhone wallpapers"
+                isCurrent={current === "wallpapers"}
+              >
+                <span className="inline-flex items-center gap-1.5">
+                  Wallpapers
+                  <span className="w-1 h-1 rounded-full bg-blue-600 shrink-0" />
+                </span>
+              </NavLink>
+              <NavLink
+                href={`${anchorBase}#contact`}
                 isScrolled={isScrolled}
                 name="Check out my resume."
               >
@@ -170,7 +198,7 @@ export const Header = () => {
               </NavLink>
             </div>
             <PrimaryButton
-              href="#contact"
+              href={`${anchorBase}#contact`}
               className="px-6 py-2.5 text-[11px]"
               icon={true}
             >
@@ -197,16 +225,17 @@ export const Header = () => {
       >
         <nav className="flex flex-col items-center gap-8">
           {[
-            { label: "Work", href: "#work", external: false, button: false },
-            { label: "About", href: "#about", external: false, button: false },
-            { label: "Resume", href: "#contact", external: false, button: false },
+            { label: "Work", href: `${anchorBase}#work`, external: false, button: false },
+            { label: "About", href: `${anchorBase}#about`, external: false, button: false },
+            { label: "Wallpapers", href: "/wallpapers", external: false, button: false },
+            { label: "Resume", href: `${anchorBase}#contact`, external: false, button: false },
             {
               label: "Let's Talk",
-              href: "#contact",
+              href: `${anchorBase}#contact`,
               external: false,
               button: true,
             },
-          ].map((link, i) => (
+          ].map((link) => (
             <div key={link.label} className="mobile-link">
               <a
                 href={link.href}
