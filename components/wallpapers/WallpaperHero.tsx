@@ -242,13 +242,6 @@ export const WallpaperHero = ({ isTouchDevice }: WallpaperHeroProps) => {
               >
                 Browse the pack
               </PrimaryButton>
-              <PrimaryButton
-                href='/#work'
-                variant='secondary'
-                className='px-8 py-4 text-[11px] uppercase tracking-[0.2em]'
-              >
-                See the work
-              </PrimaryButton>
             </div>
           </div>
 
