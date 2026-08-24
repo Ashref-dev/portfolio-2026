@@ -123,7 +123,7 @@ export const Footer = () => {
   return (
     <footer
       ref={containerRef}
-      className='relative min-h-[85dvh] bg-neutral-900 flex flex-col items-center justify-between py-24 px-6 overflow-hidden md:min-h-0 md:h-full'
+      className='relative min-h-[85dvh] bg-neutral-900 flex flex-col items-center justify-between py-12 px-6 overflow-hidden lg:py-16 md:min-h-0 md:h-full'
       style={{ clipPath: 'polygon(0% 0, 100% 0%, 100% 100%, 0 100%)' }}
     >
       {/* Background Architectural Grid */}
@@ -146,8 +146,11 @@ export const Footer = () => {
         }}
       />
 
-      <div className='max-w-7xl w-full mx-auto flex-1 flex flex-col items-center justify-center z-10'>
-        <div className='flex items-center gap-4 mb-12'>
+      {/* `min-h-0` lets this block absorb any height squeeze. Without it a flex
+          item refuses to shrink below its content and pushes the link bar out
+          of the fixed-height reveal container, where `overflow-hidden` eats it. */}
+      <div className='max-w-7xl w-full mx-auto min-h-0 flex-1 flex flex-col items-center justify-center z-10'>
+        <div className='flex items-center gap-4 mb-6 lg:mb-10'>
           <div className='flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-500/30 bg-neutral-500/10 backdrop-blur-sm'>
             <div className='w-1.5 h-1.5 rounded-full bg-neutral-500' />
             <span className='text-[10px] font-sans font-bold tracking-[0.3em] text-neutral-400 uppercase'>
@@ -168,7 +171,7 @@ export const Footer = () => {
             rel='noopener noreferrer'
             className='block text-center relative z-10'
           >
-            <h2 className='text-[clamp(4.5rem,15vw,13rem)] font-serif italic text-[#fafafa] leading-[0.8] tracking-tighter transition-all duration-700 group-hover/cta:text-rose-600 group-hover/cta:scale-[1.02]'>
+            <h2 className='text-[clamp(3.5rem,min(14vw,19vh),13rem)] font-serif italic text-[#fafafa] leading-[0.8] tracking-tighter transition-all duration-700 group-hover/cta:text-rose-600 group-hover/cta:scale-[1.02]'>
               Let's
               <br />
               Talk<span className='text-rose-600 font-light'>.</span>
@@ -182,7 +185,7 @@ export const Footer = () => {
           />
         </div>
 
-          <div className='mt-16 opacity-100 md:opacity-0 group-hover/cta:opacity-100 transition-all duration-500 translate-y-0 md:translate-y-4 group-hover/cta:translate-y-0 flex flex-col items-center gap-3 w-full'>
+          <div className='mt-8 [@media(min-height:800px)]:mt-16 opacity-100 md:opacity-0 group-hover/cta:opacity-100 transition-all duration-500 translate-y-0 md:translate-y-4 group-hover/cta:translate-y-0 flex flex-col items-center gap-3 w-full'>
             <p className='text-neutral-500 font-sans text-[11px] font-bold tracking-[0.4em] uppercase ml-[0.2em]'>
               hi@achraf.tn
             </p>
@@ -198,7 +201,7 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className='max-w-7xl w-full mx-auto flex flex-col lg:flex-row justify-between items-center z-10 border-t border-neutral-800/80 pt-8 pb-4 gap-8'>
+      <div className='max-w-7xl w-full mx-auto shrink-0 flex flex-col lg:flex-row justify-between items-center z-10 border-t border-neutral-800/80 pt-6 gap-6 lg:gap-8'>
         {/* Left: Socials */}
         <div className='flex items-center gap-6 lg:gap-8'>
           {socialLinks.map((link) => (
@@ -207,6 +210,7 @@ export const Footer = () => {
               href={link.href}
               target='_blank'
               rel='noopener noreferrer'
+              aria-label={link.label}
               className='flex items-center gap-2 text-neutral-500 hover:text-[#fafafa] transition-colors duration-300 group'
             >
               <link.icon className='w-4 h-4 transition-transform group-hover:-rotate-12 group-hover:scale-110 shrink-0' />
