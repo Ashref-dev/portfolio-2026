@@ -25,17 +25,18 @@ const INGEST_PATH = '/ingest';
 const UI_HOST = 'https://us.posthog.com';
 
 export type AnalyticsEvent =
+  | 'cta_clicked'
   | 'wallpaper_downloaded'
   | 'wallpaper_pack_downloaded'
   | 'wallpaper_opened'
   | 'scroll_depth'
-  | 'section_viewed'
-  | 'outbound_click';
+  | 'section_viewed';
 
 type Properties = Record<string, string | number | boolean | undefined>;
 
 let client: PostHog | null = null;
 let booted = false;
+let loading = false;
 const queue: Array<[AnalyticsEvent, Properties | undefined]> = [];
 
 const isBrowser = (): boolean =>
@@ -60,35 +61,77 @@ const whenIdle = (run: () => void): void => {
   window.setTimeout(run, 1200);
 };
 
-export function initAnalytics(): void {
-  if (!isBrowser() || booted) return;
-  booted = true;
+const classifyCta = (anchor: HTMLAnchorElement): string | null => {
+  const href = anchor.getAttribute('href') ?? '';
+  const label = anchor.textContent?.replace(/\s+/g, ' ').trim().toLowerCase() ?? '';
 
-  whenIdle(() => {
-    import('posthog-js')
-      .then(({ default: posthog }) => {
-        posthog.init(PROJECT_KEY, {
+  if (href === '/wallpapers' || href === '/wallpapers/') return 'open_wallpapers';
+  if (href === '#grid') return 'browse_wallpapers';
+  if (href.endsWith('#work')) return 'view_portfolio';
+  if (href.includes('resume_ashref.pdf')) return 'download_cv';
+  if (href.startsWith('mailto:')) return 'lets_talk';
+  if (href.endsWith('#contact')) return label.includes('resume') ? 'view_resume' : 'lets_talk';
+  if (anchor.closest('#work')) return 'open_project';
+  if (anchor.closest('footer') && /^https?:/.test(href)) return 'open_outbound_profile';
+  return null;
+};
+
+const ctaLocation = (anchor: HTMLAnchorElement): string => {
+  const href = anchor.getAttribute('href') ?? '';
+  if (anchor.closest('.mobile-link')) return 'header_mobile';
+  if (anchor.closest('header')) return 'header_desktop';
+  if (anchor.closest('footer')) return 'footer';
+  if (href === '#grid') return 'wallpapers_hero';
+  if (href === '/wallpapers' || href === '/wallpapers/') return 'homepage_teaser';
+  return anchor.closest<HTMLElement>('section[id]')?.id ?? 'page';
+};
+
+const ctaLabel = (anchor: HTMLAnchorElement): string | undefined =>
+  anchor.getAttribute('aria-label') ??
+  anchor.getAttribute('title') ??
+  anchor.querySelector('img')?.alt ??
+  anchor.querySelector('h2')?.textContent?.replace(/\s+/g, ' ').trim() ??
+  anchor.querySelector('span')?.textContent?.trim() ??
+  anchor.textContent?.replace(/\s+/g, ' ').trim();
+
+const loadAnalytics = (): void => {
+  if (loading || client) return;
+  loading = true;
+
+  import('posthog-js')
+    .then(({ default: posthog }) => {
+      posthog.init(PROJECT_KEY, {
           api_host: INGEST_PATH,
           ui_host: UI_HOST,
           defaults: '2026-05-30',
+          autocapture: true,
+          capture_heatmaps: true,
           capture_pageview: true,
           // Engagement metrics — time on page and max scroll depth — are
           // derived from this event, so retention reporting depends on it.
           capture_pageleave: true,
+          disable_session_recording: false,
           persistence: 'localStorage+cookie',
-        });
-        posthog.register({ environment: environment() });
-
-        client = posthog;
-        for (const [event, properties] of queue) {
-          posthog.capture(event, properties);
-        }
-        queue.length = 0;
-      })
-      .catch(() => {
-        // Blocked or offline. The site does not depend on analytics.
+          person_profiles: 'identified_only',
+          session_recording: { maskAllInputs: true },
       });
-  });
+      posthog.register({ environment: environment() });
+
+      client = posthog;
+      for (const [event, properties] of queue) {
+        posthog.capture(event, properties);
+      }
+      queue.length = 0;
+    })
+    .catch(() => {
+      // Blocked or offline. The site does not depend on analytics.
+    });
+};
+
+export function initAnalytics(): void {
+  if (!isBrowser() || booted) return;
+  booted = true;
+  whenIdle(loadAnalytics);
 }
 
 export function track(event: AnalyticsEvent, properties?: Properties): void {
@@ -97,6 +140,7 @@ export function track(event: AnalyticsEvent, properties?: Properties): void {
   if (!client) {
     // Bounded so a blocked SDK cannot grow this array without limit.
     if (queue.length < 50) queue.push([event, properties]);
+    loadAnalytics();
     return;
   }
 
@@ -182,8 +226,27 @@ export function startPageAnalytics(pageName: string): () => void {
   initAnalytics();
   const stopScroll = trackScrollDepth(pageName);
   const stopSections = trackSectionViews(pageName);
+  const onClick = (event: MouseEvent): void => {
+    if (!(event.target instanceof Element)) return;
+
+    const target = event.target.closest<HTMLAnchorElement>('a[href]');
+    if (!target) return;
+    const action = classifyCta(target);
+    if (!action) return;
+
+    track('cta_clicked', {
+      action,
+      destination: target.href,
+      label: ctaLabel(target),
+      location: ctaLocation(target),
+      page: pageName,
+    });
+  };
+
+  document.addEventListener('click', onClick);
 
   return () => {
+    document.removeEventListener('click', onClick);
     stopScroll();
     stopSections();
   };
