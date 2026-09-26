@@ -57,14 +57,14 @@ export default defineConfig((): UserConfig => {
     plugins: [trailingSlashForMpaRoutes(), react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname, '.'),
       },
     },
     build: {
       rollupOptions: {
         input: {
-          main: path.resolve(__dirname, 'index.html'),
-          wallpapers: path.resolve(__dirname, 'wallpapers/index.html'),
+          main: path.resolve(import.meta.dirname, 'index.html'),
+          wallpapers: path.resolve(import.meta.dirname, 'wallpapers/index.html'),
         },
       },
     },

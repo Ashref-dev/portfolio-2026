@@ -2,7 +2,6 @@ import { useEffect, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ReactLenis, useLenis } from 'lenis/react';
-// @ts-ignore
 import 'lenis/dist/lenis.css';
 
 import { useIsCoarsePointer } from './lib/useIsCoarsePointer';

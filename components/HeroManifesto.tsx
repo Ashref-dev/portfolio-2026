@@ -159,7 +159,7 @@ export const HeroManifesto = () => {
     let hasStarted = false;
     const elements =
       containerRef.current?.querySelectorAll(".manifesto-element") || [];
-    const badge = containerRef.current?.querySelector(".avail-badge");
+    const badge = containerRef.current?.querySelector(".avail-badge") ?? null;
     const actions =
       containerRef.current?.querySelectorAll(".action-item") || [];
 
