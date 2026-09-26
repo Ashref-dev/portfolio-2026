@@ -68,10 +68,12 @@ const classifyCta = (anchor: HTMLAnchorElement): string | null => {
   if (href === '/wallpapers' || href === '/wallpapers/') return 'open_wallpapers';
   if (href === '#grid') return 'browse_wallpapers';
   if (href.endsWith('#work')) return 'view_portfolio';
+  if (href.endsWith('#tools')) return 'view_tools';
   if (href.includes('resume_ashref.pdf')) return 'download_cv';
   if (href.startsWith('mailto:')) return 'lets_talk';
   if (href.endsWith('#contact')) return label.includes('resume') ? 'view_resume' : 'lets_talk';
   if (anchor.closest('#work')) return 'open_project';
+  if (anchor.closest('#tools')) return 'open_tool';
   if (anchor.closest('footer') && /^https?:/.test(href)) return 'open_outbound_profile';
   return null;
 };

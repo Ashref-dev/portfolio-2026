@@ -187,6 +187,13 @@ export const Header = ({ anchorBase = '', current = 'home' }: HeaderProps) => {
                 </span>
               </NavLink>
               <NavLink
+                href={`${anchorBase}#tools`}
+                isScrolled={isScrolled}
+                name='Tools'
+              >
+                Tools
+              </NavLink>
+              <NavLink
                 href={`${anchorBase}#work`}
                 isScrolled={isScrolled}
                 name='Work'
@@ -240,6 +247,12 @@ export const Header = ({ anchorBase = '', current = 'home' }: HeaderProps) => {
             {
               label: 'Wallpapers',
               href: '/wallpapers',
+              external: false,
+              button: false,
+            },
+            {
+              label: 'Tools',
+              href: `${anchorBase}#tools`,
               external: false,
               button: false,
             },

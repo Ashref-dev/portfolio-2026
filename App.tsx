@@ -13,6 +13,7 @@ import { About } from './components/About';
 import { Services } from './components/Services';
 import { Experience } from './components/Experience';
 import { Projects } from './components/Projects';
+import { Tools } from './components/Tools';
 import { Testimonials } from './components/Testimonials';
 import { Blog } from './components/Blog';
 import { WallpaperTeaser } from './components/WallpaperTeaser';
@@ -38,6 +39,7 @@ function AppShell({ isTouchDevice }: { isTouchDevice: boolean }) {
         }`}
       >
         <HeroManifesto />
+        <Tools />
         <Projects />
         <HeroIdentity />
         <ProcessTicker />
