@@ -35,11 +35,25 @@ const tools: readonly Tool[] = [
       'A clutter-free page for quick notes that lives in your browser, no account needed. I use it to stage prompts and screenshots before handing them to my agents.',
   },
   {
+    id: 'diff',
+    name: 'diff',
+    domain: 'diff.achraf.tn',
+    description:
+      'Paste two texts and see every change instantly, split or unified, with word-level highlights and syntax colors. It stays fast at ten thousand lines and never leaves your browser.',
+  },
+  {
     id: 'md',
     name: 'md.',
     domain: 'md.achraf.tn',
     description:
       'Paste Markdown, get a clean, print-ready PDF with tables, code, Mermaid and LaTeX. Everything renders in the browser and nothing is uploaded. It is how my agents’ output becomes documents I can send.',
+  },
+  {
+    id: 'excel',
+    name: 'excel.',
+    domain: 'excel.achraf.tn',
+    description:
+      'Drop in .xlsx, .xls or .csv files and get clean Markdown tables, one sheet or every sheet at once. The quickest way to turn a spreadsheet into something a doc or a prompt can use.',
   },
 ];
 
@@ -101,9 +115,7 @@ export const Tools = () => {
           </span>
         </h2>
 
-        {/* Source order alternates light and dark for the single column; on two
-            columns the third tile moves last so the grid reads as a checkerboard. */}
-        <ul className='grid grid-cols-1 gap-x-5 gap-y-14 md:grid-cols-2 md:gap-y-16 md:[&>li:nth-child(3)]:order-last'>
+        <ul className='grid grid-cols-1 gap-x-5 gap-y-14 md:grid-cols-2 md:gap-y-16'>
           {tools.map((tool) => (
             <li key={tool.id} className='tools-reveal'>
               <a
