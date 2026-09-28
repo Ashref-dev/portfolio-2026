@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import App from '../App';
 import WallpapersApp from '../WallpapersApp';
+import ToolsApp from '../ToolsApp';
 
 /**
  * Build-time static snapshot entry.
@@ -20,6 +21,10 @@ export function render(): string {
 
 export function renderWallpapers(): string {
   return renderToStaticMarkup(<WallpapersApp />);
+}
+
+export function renderTools(): string {
+  return renderToStaticMarkup(<ToolsApp />);
 }
 
 /**

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="canonical" href="https://achraf.tn/tools" />
+
+    <title>Tools I Built — Remi, OTS, blank., diff, md. and excel. by Achraf</title>
+    <meta name="title" content="Tools I Built — Remi, OTS, blank., diff, md. and excel. by Achraf" />
+    <meta
+      name="description"
+      content="Free, open-source tools by Achraf Ben Abdallah, including Remi for macOS menu bar notes, OTS for one-time secrets, blank. for quick notes, diff for text comparison, md. for Markdown to PDF and excel. for spreadsheets to Markdown."
+    />
+    <meta name="author" content="Achraf Ben Abdallah" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+
+    <link rel="icon" type="image/svg+xml" href="/assets/logo.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/icon-32.png" />
+    <link rel="alternate icon" href="/assets/favicon/favicon.ico" sizes="any" />
+    <!-- iOS ignores SVG here and falls back to a screenshot of the page. -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
+    <meta name="theme-color" content="#fafafa" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Achraf Ben Abdallah" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://achraf.tn/tools" />
+    <meta property="og:title" content="Tools I Built — Achraf Ben Abdallah" />
+    <meta
+      property="og:description"
+      content="Small, free and open-source tools I built for my own workflow and use every day."
+    />
+    <meta property="og:image" content="https://achraf.tn/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://achraf.tn/tools" />
+    <meta name="twitter:title" content="Tools I Built — Achraf Ben Abdallah" />
+    <meta
+      name="twitter:description"
+      content="Small, free and open-source tools I built for my own workflow and use every day."
+    />
+    <meta name="twitter:image" content="https://achraf.tn/og-image.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "CollectionPage",
+            "@id": "https://achraf.tn/tools#page",
+            "url": "https://achraf.tn/tools",
+            "name": "Tools I Built",
+            "description": "Free, open-source tools built and used daily by Achraf Ben Abdallah.",
+            "inLanguage": "en",
+            "isPartOf": { "@id": "https://achraf.tn/#website" },
+            "creator": { "@id": "https://achraf.tn/#person" },
+            "mainEntity": {
+              "@type": "ItemList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "item": { "@type": "SoftwareApplication", "name": "Remi", "url": "https://remi.achraf.tn", "applicationCategory": "ProductivityApplication", "operatingSystem": "macOS", "isAccessibleForFree": true } },
+                { "@type": "ListItem", "position": 2, "item": { "@type": "WebApplication", "name": "OTS", "url": "https://ots.achraf.tn", "applicationCategory": "SecurityApplication", "isAccessibleForFree": true } },
+                { "@type": "ListItem", "position": 3, "item": { "@type": "WebApplication", "name": "blank.", "url": "https://blank.achraf.tn", "applicationCategory": "ProductivityApplication", "isAccessibleForFree": true } },
+                { "@type": "ListItem", "position": 4, "item": { "@type": "WebApplication", "name": "diff", "url": "https://diff.achraf.tn", "applicationCategory": "DeveloperApplication", "isAccessibleForFree": true } },
+                { "@type": "ListItem", "position": 5, "item": { "@type": "WebApplication", "name": "md.", "url": "https://md.achraf.tn", "applicationCategory": "ProductivityApplication", "isAccessibleForFree": true } },
+                { "@type": "ListItem", "position": 6, "item": { "@type": "WebApplication", "name": "excel.", "url": "https://excel.achraf.tn", "applicationCategory": "ProductivityApplication", "isAccessibleForFree": true } }
+              ]
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://achraf.tn/tools#breadcrumb",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Achraf Ben Abdallah", "item": "https://achraf.tn/" },
+              { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://achraf.tn/tools" }
+            ]
+          }
+        ]
+      }
+    </script>
+
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #fafafa;
+        color: #171717;
+      }
+      /* Mirrors index.html: the preloader must cover the prerendered markup
+         before the built stylesheet arrives, otherwise the static snapshot
+         flashes unstyled on a cold cache. */
+      #preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background-color: #fafafa;
+        pointer-events: none;
+        transform-origin: top;
+      }
+    </style>
+    <noscript>
+      <style>
+        #preloader { display: none !important; }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <div id="preloader"></div>
+
+    <div id="root"></div>
+    <script type="module" src="./main.tsx"></script>
+    <script defer src="/animated-favicon.js"></script>
+  </body>
+</html>

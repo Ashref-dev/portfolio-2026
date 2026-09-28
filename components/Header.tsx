@@ -41,10 +41,11 @@ interface HeaderProps {
    * home first instead of hunting for a section that is not there.
    */
   anchorBase?: string;
-  current?: 'home' | 'wallpapers';
+  current?: 'home' | 'wallpapers' | 'tools';
 }
 
 export const Header = ({ anchorBase = '', current = 'home' }: HeaderProps) => {
+  const toolsHref = current === 'tools' ? '/tools' : `${anchorBase}#tools`;
   const headerRef = useRef<HTMLElement>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -187,9 +188,10 @@ export const Header = ({ anchorBase = '', current = 'home' }: HeaderProps) => {
                 </span>
               </NavLink>
               <NavLink
-                href={`${anchorBase}#tools`}
+                href={toolsHref}
                 isScrolled={isScrolled}
                 name='Tools'
+                isCurrent={current === 'tools'}
               >
                 Tools
               </NavLink>
@@ -252,7 +254,7 @@ export const Header = ({ anchorBase = '', current = 'home' }: HeaderProps) => {
             },
             {
               label: 'Tools',
-              href: `${anchorBase}#tools`,
+              href: toolsHref,
               external: false,
               button: false,
             },

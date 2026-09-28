@@ -13,8 +13,8 @@ function trailingSlashForMpaRoutes(): Plugin {
     name: 'trailing-slash-for-mpa-routes',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        if (req.url === '/wallpapers') {
-          res.writeHead(301, { Location: '/wallpapers/' });
+        if (req.url === '/wallpapers' || req.url === '/tools') {
+          res.writeHead(301, { Location: `${req.url}/` });
           res.end();
           return;
         }
@@ -65,6 +65,7 @@ export default defineConfig((): UserConfig => {
         input: {
           main: path.resolve(import.meta.dirname, 'index.html'),
           wallpapers: path.resolve(import.meta.dirname, 'wallpapers/index.html'),
+          tools: path.resolve(import.meta.dirname, 'tools/index.html'),
         },
       },
     },

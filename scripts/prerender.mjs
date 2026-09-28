@@ -59,6 +59,21 @@ const PAGES = [
       'Save',
     ],
   },
+  {
+    label: 'tools',
+    exportName: 'renderTools',
+    html: path.join(projectRoot, 'dist', 'tools', 'index.html'),
+    minLength: 8_000,
+    requiredPhrases: [
+      'Achraf',
+      'Tools I',
+      'remi.achraf.tn',
+      'excel.achraf.tn',
+      'github.com/Ashref-dev',
+      'Unique visitors',
+      'Cloudflare',
+    ],
+  },
 ];
 
 function fail(message) {
@@ -162,6 +177,8 @@ async function writeSitemap(wallpapers) {
     '    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n' +
     images +
     '\n  </url>\n' +
+    `  <url>\n    <loc>${SITE}/tools</loc>\n    <lastmod>${today}</lastmod>\n` +
+    '    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>\n' +
     `  <url>\n    <loc>${SITE}/assets/resume_ashref.pdf</loc>\n    <lastmod>${today}</lastmod>\n` +
     '    <changefreq>yearly</changefreq>\n    <priority>0.5</priority>\n  </url>\n' +
     '</urlset>\n';
