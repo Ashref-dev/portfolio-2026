@@ -9,6 +9,7 @@ import { Footer } from './components/Footer';
 import { Reveal } from './components/Reveal';
 import { TrafficPanel } from './components/tools/TrafficPanel';
 import { ToolEntry } from './components/tools/ToolEntry';
+import { Updates } from './components/tools/Updates';
 import { tools } from './components/tools/data';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -56,6 +57,8 @@ function ToolsShell({ isTouchDevice }: { isTouchDevice: boolean }) {
             ))}
           </div>
         </section>
+
+        <Updates />
       </main>
 
       <div
