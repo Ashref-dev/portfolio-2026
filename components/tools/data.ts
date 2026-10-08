@@ -67,6 +67,15 @@ export const tools: readonly Tool[] = [
     description:
       'Drop in .xlsx, .xls or .csv files and get clean Markdown tables, one sheet or every sheet at once. The quickest way to turn a spreadsheet into something a doc or a prompt can use.',
   },
+  {
+    id: 'daystack',
+    name: 'Daystack',
+    domain: 'daystack.achraf.tn',
+    repo: 'Ashref-dev/daystack',
+    runsOn: 'Any browser, installable on your phone',
+    description:
+      'Build your routine once, then open it and check off today. Repeating tasks come back fresh the next morning, so nothing stays checked forever. Mobile-first and local-first, it works offline and keeps everything on your device.',
+  },
 ];
 
 /** Cloudflare Web Analytics, last 30 days, across every service I run. */

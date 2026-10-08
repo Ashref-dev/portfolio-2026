@@ -45,7 +45,7 @@ type View = 'icons' | 'list' | 'gallery';
 type TagId = 'macos' | 'web' | 'private' | 'oss';
 type Ghost = { key: number; src: string; left: number; top: number; size: number };
 
-const PRIVATE_IDS = new Set(['ots', 'blank', 'diff', 'md', 'excel']);
+const PRIVATE_IDS = new Set(['ots', 'blank', 'diff', 'md', 'excel', 'daystack']);
 
 const isMacApp = (tool: Tool) => tool.runsOn.startsWith('macOS');
 const kindOf = (tool: Tool) => (isMacApp(tool) ? 'macOS app' : 'Web app');
